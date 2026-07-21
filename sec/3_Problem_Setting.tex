@@ -1,0 +1,73 @@
+\section{Problem Formulation}
+\label{3}
+\subsection{Problem Setting}
+We introduce a novel problem setting called Continual Learning Unlearning (CLU) also known as Continual Adaptation or simply Adaptations, a framework for dynamically modifying model knowledge defined as learned class mappings encoded in parameters. This setting brings together two complementary goals: (i) selectively removing specific targeted knowledge (machine unlearning) and (ii) acquiring new targeted knowledge for existing pre-trained models (continual learning), all while maintaining performance on the remaining knowledge in a continual form. To develop a solution for this problem, we first present the most basic case, in which only one adaptation task is performed, and then expand this formulation to the continuous scenario, which includes a series of adaptation activities.
+
+Let $\mathcal{M}$ be a model pre-trained on the dataset $D$. We regard $\mathcal{M}$ as a mapping function $f_\mathcal{M} : \mathcal{X}_D \rightarrow \mathcal{Y}_D$, where $\mathcal{X}_D$ and $\mathcal{Y}_D$ denote the input and output spaces associated with $D$, respectively. Our objective is to selectively discard certain knowledge while adding new knowledge and retaining the rest. We assume $D_f$ be the dataset to be forgotten, $D^\text{\textit{full}}_r$ the dataset to be retained, and $D_{\text{new}}$ the new dataset to be learned, satisfying $D = D^\text{\textit{full}}_r \cup D_f$, $D^\text{\textit{full}}_r \cap D_f = \emptyset$, and $D_{\text{new}} \cap D = \emptyset$.
+
+In practice, storing the full retain set is prohibited under General Data Protection Regulation (GDPR) and California Consumer Privacy Act (CCPA) regulations for privacy-sensitive data, while for non-private data, retraining remains computationally expensive due to large-scale models and datasets. We therefore maintain a small replay buffer $D_r \subset D^\text{\textit{full}}_r$ such that $|D_r| \ll |D^\text{\textit{full}}_r|$ (at least 10\% of $|D^\text{\textit{full}}_r|$), here $D^\text{\textit{full}}_r$ represents full retaining data \footnote{From this point, $D_r$ denotes the experience replay buffer unless specified.}. The consequences of insufficient or absent buffer size are discussed in detail in Section~\ref{8.1}.
+
+
+Before adaptation, $\mathcal{M}$ performs well on $D_r$ and $D_f$ but poorly on $D_{\text{new}}$, i.e.,
+{\small
+\begin{equation}
+f_{\mathcal{M}} :
+\mathcal{X}_{D_f} \rightarrow \mathcal{Y}_{D_f} \; ; \;
+\mathcal{X}_{D_r} \rightarrow \mathcal{Y}_{D_r} \; ; \;
+\mathcal{X}_{D_{\text{new}}} \cancel{\rightarrow} \mathcal{Y}_{D_{\text{new}}}.
+\label{eq:1}
+\tag{1}
+\end{equation}
+}
+
+Let the adaptation algorithm be $\mathcal{F}$ for more details please refer Section \ref{4} which modifies the model $\mathcal{M}$ to obtain $\mathcal{M'}$ by using $\mathcal{F}$ such that $\mathcal{M}' = \mathcal{F}(\mathcal{M}, D_f, D_r, D_{\text{new}})$ such that $\mathcal{M'}$ holds a new mapping relationship $f_{\mathcal{M}'}$ as 
+
+{\small
+\begin{equation}
+f_{\mathcal{M'}} :
+\mathcal{X}_{D_f} \cancel{\rightarrow} \mathcal{Y}_{D_f} \; ; \;
+\mathcal{X}_{D_r} \rightarrow \mathcal{Y}_{D_r} \; ; \;
+\mathcal{X}_{D_{\text{new}}} \rightarrow \mathcal{Y}_{D_{\text{new}}}.
+\label{eq:2} \tag{2}
+\end{equation}
+}
+Here, \( \cancel{\rightarrow} \) denotes that the mapping no longer holds (i.e., the model has forgotten the corresponding mapping), while \( \rightarrow \) indicates that the mapping still holds. 
+
+We now extend this problem to the continual setting, where the model is required to sequentially adopt new knowledge, involving both unlearning and learning across tasks $T$. These tasks may be triggered by requests from the user, the owner, or both. Here, $t$ is an index representing the task number, ranging from $0, 1, 2, \ldots, t, \ldots, T$. let $D_r^\text{(t)}$ be the data to be retained, $D_{f}^\text{(t)}$ be the data to be forgotten and $D_\text{new}^\text{(t)}$ be the data to be learned at $t_\text{th}$ step respectively.
+
+The algorithm $\mathcal{F}$ is applied as:
+\[
+    \mathcal{M}^\text{(t)} = \mathcal{F}(\mathcal{M^\text{{(t - 1)}}}, D_{f}^\text{(t)}, D_{r}^\text{(t)}, D_{\text{new}}^\text{(t)})
+\]
+
+The adaptation algorithm $\mathcal{F}$ takes the previous-step model $\mathcal{M^\text{{(t - 1})}}$ along with the datasets 
+$D_{r}^\text{(t)}$, $D_{f}^\text{(t)}$, and $D_{\text{new}}^\text{(t)}$ to produce the updated model $\mathcal{M^\text{(t)}}$. Thus, $\mathcal{F}$ handles adaptation requests sequentially, starting from $\mathcal{M}$ and generating  a sequence of models $\mathcal{M^\text{(1)}}, \; \mathcal{M^\text{(2)}}, \; \mathcal{M^\text{(3)}}, \; \ldots, \; \mathcal{M^\text{(t)}}, \; \ldots, \; \mathcal{M^\text{(T)}}$,  where $\mathcal{M^\text{(t)}}$ represents the modified model after the $t$-th adaptation task.
+
+\label{Eq:3}
+
+After step $t$, the adapted model $\mathcal{M}^{(t)}$ must satisfy:
+
+\begin{align} 
+    f_{\mathcal{M}^{(t)}} &: \mathcal{X}_{D_{f}^{(i)}} \cancel{\rightarrow} \mathcal{Y}_{D_{f}^{(i)}}, \quad \forall \, i \leq t \tag{3a} \label{Eq:3a} \\ f_{\mathcal{M}^{(t)}} &: \mathcal{X}_{D_{r}^{(t)}} \rightarrow \mathcal{Y}_{D_{r}^{(t)}} \tag{3b} \label{Eq:3b} \\ 
+    f_{\mathcal{M}^{(t)}} &: \mathcal{X}_{D_{\text{new}}^{(i)}} \rightarrow \mathcal{Y}_{D_{\text{new}}^{(i)}} \tag{3c} \label{Eq:3c} 
+\end{align}
+
+
+We define successful CLU as 
+\begin{itemize}
+    \item Forgetting: $\text{Acc}(\mathcal{M}^{(t)}, D_f^{(i)}) \leq \frac{1}{C}, \quad \forall \, i \leq t$
+    \item Retention: $\text{Acc}(\mathcal{M}^{(t)}, D_r^{(t)}) \approx \text{Acc}(\text{Oracle}, D_r^{(t)})$
+    \item Learning: $\text{Acc}(\mathcal{M}^{(t)}, D_{\text{new}}^{(t)}) \approx \text{Acc}(\text{Oracle}, D_{\text{new}}^{(t)})$
+\end{itemize}
+where $C$ is the number of classes and Oracle denotes a model trained directly on target classes only.
+
+\subsection{Assumptions}
+\label{3.2}
+BID-LoRA assumes the following conditions hold:
+\begin{enumerate}
+    \item A replay buffer $D_r$ with $|D_r| \geq 0.1|D^\text{\textit{full}}_r|$ is available.
+    \item Learning and unlearning occur simultaneously; if only one is needed, the corresponding loss is masked (see Section~\ref{4.3}).
+    \item Data partitions satisfy $D = D^\text{\textit{full}}_r \cup D_f$, $D^\text{\textit{full}}_r \cap D_f = \emptyset$, $D_{\text{new}} \cap D = \emptyset$.
+\end{enumerate}
+
+

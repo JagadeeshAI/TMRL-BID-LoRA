@@ -1,0 +1,65 @@
+% \footnote{
+% \begin{table*}[htbp]
+% \centering
+% \renewcommand{\arraystretch}{1.30}
+% \caption{Performance comparison across all continual learning-unlearning tasks on Face recognistion tasks on CASIA-Face100}
+% \label{tab:face_recognisition}
+% \begin{adjustbox}{max width=\textwidth}
+% \begin{tabular}{c|c|cccccc|cccccc}
+% \toprule
+% \multirow{2}{*}{\textbf{Method}} & \multirow{2}{*}{\textbf{Tunable} $\downarrow$} 
+% & \multicolumn{6}{c|}{\textbf{Task-1}} & \multicolumn{6}{c}{\textbf{Task-2}} \\
+% \cmidrule(lr){3-8} \cmidrule(lr){9-14}
+% & & $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow$ & $Acc_o \uparrow$ & KL $\downarrow$ & MIA $\approx 0.5$
+% & $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow$ & $Acc_o \uparrow$ & KL $\downarrow$ & MIA $\approx 0.5$\\
+% \midrule
+% Oracle & 100\% & -- & -- & -- & 95.65 & -- & -- & -- & -- & -- & 96.36 & -- & -- \\
+% \midrule
+% LSF\cite{shibata2021learning}           & 100\% & 0.00 & 90.87 & 93.51 & 91.75 & 1.27 & \colorbox{green!25}{0.57} & 0.00 & 87.98 & 90.73 & 88.90 & 1.58 & \colorbox{blue!25}{0.51} \\
+% CLPU-DER++\cite{liu2022continual}       & 100\% & 0.58 & 88.98 & 90.36 & 89.44 & 1.58 & \colorbox{blue!25}{0.61} & 0.32 & 88.96 & \colorbox{blue!25}{93.54} & 90.49 & 2.50 & \colorbox{green!25}{0.50} \\
+% UniCLUN \cite{chatterjee2024unified}    & 100\% & 0.87 & 90.28 & 90.96 & 90.51 & 1.00 & 0.62 & 0.89 & 90.70 & 90.35 & 90.58 & \colorbox{blue!25}{0.87} & 0.57 \\
+% UG-CLU \cite{huang2025unified}          & 100\% & 1.00 & 91.35 & 91.18 & 91.29 & \colorbox{green!25}{0.87} & 0.67 & 0.76 & \colorbox{blue!25}{91.13} & 87.00 & 89.75 & 0.98 & 0.67  \\
+% UnCLe \cite{adhikari2025unlearning}     & 100\% & 0.00 & \colorbox{green!25}{92.00} & \colorbox{blue!25}{94.83} & \colorbox{blue!25}{92.94} & 2.25 & {0.61} & 0.00 & 90.25 & 91.27 & \colorbox{blue!25}{90.59} & \colorbox{green!25}{0.78} & 0.61 \\
+% \midrule
+% \rowcolor{pink!15}
+% \textbf{BID-LoRA}  & 5.00\% & 0.10 & \colorbox{blue!25}{91.93} & \colorbox{green!25}{95.72} & \colorbox{green!25}{93.20} & \colorbox{blue!25}{0.98} & \colorbox{green!25}{0.57} & 0.88 & \colorbox{green!25}{91.36} & \colorbox{green!25}{93.55} & \colorbox{green!25}{92.09} & 1.10 & 0.53 \\
+% \midrule
+% \addlinespace[0.2cm]
+% \midrule
+% \multirow{2}{*}{\textbf{Method}} & \multirow{2}{*}{\textbf{Tunable} $\downarrow$} & \multicolumn{6}{c|}{\textbf{Task-3}} & \multicolumn{6}{c}{\textbf{Task-4}} \\
+% \cmidrule(lr){3-8} \cmidrule(lr){9-14}
+% & & $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow$ & $Acc_o \uparrow$ & KL $\downarrow$ & MIA $\approx 0.5$
+% & $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow$ & $Acc_o \uparrow$ & KL $\downarrow$ & MIA $\approx 0.5$\\
+% \midrule
+% Oracle & 100\% & -- & -- & -- & 94.85 & -- & -- & -- & -- & -- & 96.87 & -- & -- \\
+% \midrule
+% LSF\cite{shibata2021learning}         & 100\% & 0.25 & 91.13 & 90.35 & 90.87 & 2.36 & 0.56 &  0.00 & 91.87 & 94.00 & 92.58 & 1.36  & 0.58  \\
+% CLPU-DER++\cite{liu2022continual}     & 100\% & 0.00 & 90.68 & 90.58 & 90.65 & 1.35 & 0.57 &  0.00 & \colorbox{blue!25}{92.58} & 93.68 & 92.95 & 2.25  & \colorbox{green!25}{0.51} \\
+% UniCLUN \cite{chatterjee2024unified}  & 100\% & 0.00 & 91.58 & 91.37 & 91.51 & 1.89 & \colorbox{green!25}{0.51} &  0.29 & \colorbox{green!25}{92.87} & \colorbox{blue!25}{94.78} & \colorbox{green!25}{93.51} & 1.69   & 0.67  \\
+% UG-CLU \cite{huang2025unified}        & 100\% & 0.00 & 89.69 & \colorbox{blue!25}{92.35} & 90.58 & \colorbox{green!25}{0.78} & \colorbox{green!25}{0.51} & 0.78 & 91.25 & 92.65 & 91.72 & 1.87  & 0.64  \\
+% UnCLe \cite{adhikari2025unlearning}   & 100\% & 0.00 & \colorbox{blue!25}{92.22} & \colorbox{green!25}{93.00} & \colorbox{green!25}{92.48} & \colorbox{blue!25}{0.91} & 0.61 &  0.10 & 90.36 & 92.82 & 91.18 & \colorbox{blue!25}{0.94}  & \colorbox{blue!25}{0.53} \\
+% \midrule
+% \rowcolor{pink!15}
+% \textbf{BID-LoRA} & 5.00\% & 0.00 & \colorbox{green!25}{92.25} & \colorbox{blue!25}{92.35} & \colorbox{blue!25}{92.29} & \colorbox{green!25}{0.78} & \colorbox{blue!25}{0.54} & 0.00 & 92.51 & \colorbox{green!25}{95.20} & \colorbox{blue!25}{93.40} & \colorbox{green!25}{0.87} & 0.57 \\
+% \midrule
+% \addlinespace[0.2cm]
+% \midrule
+% \multirow{2}{*}{\textbf{Method}} & \multirow{2}{*}{\textbf{Tunable} $\downarrow$} & \multicolumn{6}{c|}{\textbf{Task-5}} & \multicolumn{6}{c}{\textbf{Task-6}} \\
+% \cmidrule(lr){3-8} \cmidrule(lr){9-14}
+% & & $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow$ & $Acc_o \uparrow$ & KL $\downarrow$ & MIA $\approx 0.5$
+% & $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow$ & $Acc_o \uparrow$ & KL $\downarrow$ & MIA $\approx 0.5$\\
+% \midrule
+% Oracle & 100\% & -- & -- & -- & 94.58 & -- & -- & -- & -- & -- & 95.85 & -- & -- \\
+% \midrule
+% LSF\cite{shibata2021learning} & 100\%        & 0.00 & 89.69 & 91.87 & \colorbox{blue!25}{90.42} & 1.36 & 0.61 & 0.00 & \colorbox{blue!25}{90.87} & 91.27 & \colorbox{blue!25}{91.00} & 1.25 & 0.57 \\
+% CLPU-DER++\cite{liu2022continual} & 100\%    & 0.00 & 87.25 & 92.35 & 88.95 & 2.58 & 0.68 & 0.00 & 90.81 & 91.28 & 90.97 & 1.57 & \colorbox{blue!25}{0.51} \\
+% UniCLUN \cite{chatterjee2024unified} & 100\% & 0.25 & 87.25 & \colorbox{blue!25}{93.15} & 89.22 & 1.24 & 0.57 & 0.00 & 87.65 & 90.87 & 88.72 & \colorbox{blue!25}{0.87} & 0.59 \\
+% UG-CLU \cite{huang2025unified} & 100\%       & 0.36 & 89.69 & 93.00 & 90.79 & 0.98 & \colorbox{green!25}{0.51} & 0.00 & 88.61 & 90.66 & 89.29 & 0.98 & 0.67 \\
+% UnCLe \cite{adhikari2025unlearning} & 100\%  & 0.00 & \colorbox{blue!25}{90.11} & 92.55 & 90.92 & \colorbox{blue!25}{0.87} & \colorbox{blue!25}{0.53} & 0.00 & 89.95 & \colorbox{blue!25}{91.69} & 90.53 & 1.18 & 0.60 \\
+% \midrule
+% \rowcolor{pink!15}
+% \textbf{BID-LoRA} & 5.00\% & 0.00 & \colorbox{green!25}{92.30} & \colorbox{green!25}{93.25} & \colorbox{green!25}{92.62} & \colorbox{green!25}{0.74} & \colorbox{green!25}{0.51} & 0.00 & \colorbox{green!25}{90.98} & \colorbox{green!25}{91.70} & \colorbox{green!25}{91.22} & \colorbox{green!25}{0.77} & \colorbox{green!25}{0.50} \\
+% \bottomrule
+% \end{tabular}
+% \end{adjustbox}
+% \end{table*}}

@@ -1,0 +1,148 @@
+\section{Appendix:}
+\textbf{Preliminary: LoRA}
+Hu \textit{et al.} \cite{hu2022lora} propose that pre-trained model parameters can be efficiently updated using low-rank decomposition. In the context of FFN modules within Transformer blocks, consider the weight matrices $A$ and $B$. These matrices can be updated as:
+\begin{equation}
+A' = A + U_1V_1,
+\end{equation}
+where $U_1 \in \mathbb{R}^{d \times r}$ and $V_1 \in \mathbb{R}^{r \times d}$ are low-rank matrices with $r \ll d$. During training, only the LoRA matrices $U_1, V_1$ are trainable, while the original pre-trained weights $A$ remain frozen. This approach significantly reduces the number of trainable parameters while enabling effective knowledge modification in the given model.
+
+\noindent
+\textbf{Implementation Details}
+Below are the hyperparameters used for pretraining and multi-step classification \ref{tab:impl-details-classification}.
+\begin{table}[h!]
+\centering
+\begin{tabular}{l|c}
+\textbf{Config} & \textbf{Value} \\
+\hline
+dataset           & CIFAR-100 \cite{krizhevsky2009learning} \\
+backbone          & \textit{DeiT-Tiny Patch16} \cite{touvron2021training} \\
+is pretrained     & True \\
+learning rate     & 1e-4 \\
+batch size        & 64 \\
+training epochs   & 50 \\
+optimizer         & AdamW \\
+scheduler         & CosineAnnealingLR \\
+number of classes & 100 \\
+weight decay      & 0.01 \\
+label smoothing   & 0.1 \\
+alpha ($\alpha$)  & 1.0 \\
+beta ($\beta$)  & 0.15 \\
+gamma ($\gamma$)  & 0.15 \\
+BND               & 4.7 \\
+LoRA rank         & 8 \\
+data percentage (retain) & 0.1 \\
+data percentage (forget/new) & 1.0 \\
+number of steps   & 5 \\
+classes per step  & 10 \\
+random seeds      & 42 \\
+\end{tabular}
+\caption{Training configuration used for Pretraining and BID-LoRA.}
+\label{tab:impl-details-classification}
+\end{table}
+
+
+Below are the hyperparameters used for pretraining and multi-step face recognition.
+\begin{table}[h!]
+\centering
+\begin{tabular}{l|c}
+\textbf{Config} & \textbf{Value} \\
+\hline
+dataset           & CelebA-100 \cite{zhao2024continual}\\
+backbone          & Face Transformer \cite{zhong2021face} \\
+loss type         & ArcFace \\
+is pretrained     & False \\
+learning rate     & 1e-4 \\
+head learning rate & 5e-4 \\
+batch size        & 64 \\
+training epochs   & 300 \\
+optimizer         & AdamW \\
+scheduler         & CosineAnnealingLR \\
+number of classes & 100 \\
+weight decay      & 1e-4 \\
+gradient clipping & 1.0 \\
+alpha ($\alpha$)  & 2.0 \\
+beta ($\beta$)  & 0.05 \\
+gamma ($\gamma$)  & 2.0 \\
+BND               & 8.0 \\
+LoRA rank         & 8 \\
+ArcFace scale     & 64.0 \\
+data percentage (retain) & 0.1 \\
+data percentage (forget) & 1.0 \\
+data percentage (new) & 1.0 \\
+number of steps   & 5 \\
+classes per step  & 10 \\
+random seeds      & 42 \\
+\end{tabular}
+\caption{Training configuration used for Face Recognition Pretraining and BID-LoRA.}
+\label{tab:impl-details-face}
+\end{table}
+
+
+\noindent
+\textbf{Algorithmic View of BID-LoRA Framework}
+
+Algorithm~\ref{algo:apply_lora} is used to apply BID-LoRA to a given model, Algorithm~\ref{algo:single_step} is carefully designed for implementing single-step adaptations, while Algorithm~\ref{algo:multi_step} applies multiple sequential steps for continual learning-unlearning.
+
+\begin{algorithm}[htbp]
+\caption{\textit{apply\_lora()}}
+\label{algo:apply_lora}
+\begin{algorithmic}[1]
+\REQUIRE Pre-trained model $\mathcal{M}$ and rank $r$
+\ENSURE Model with LoRA adapters $\mathcal{M}_{\text{LoRA}}$
+
+\FOR{each layer in $\mathcal{M}$}
+    \IF{layer name contains ``ffn'', ``mlp'', ``fc1'', or ``fc2''}
+        \STATE $d_{\text{in}} \leftarrow \text{layer.in\_features}$
+        \STATE $d_{\text{out}} \leftarrow \text{layer.out\_features}$
+        \STATE $\text{LoRA}_A \leftarrow (r, d_{\text{in}}) \times 0.01$
+        \STATE $\text{LoRA}_B \leftarrow (d_{\text{out}}, r) \times 0.00$
+        \STATE Register $\text{LoRA}_A$ and $\text{LoRA}_B$ as trainable parameters
+    \ENDIF
+\ENDFOR
+\STATE Freeze all parameters except classification head and LoRA parameters
+\RETURN $\mathcal{M}_{\text{LoRA}}$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[htbp]
+\caption{\textit{single\_step()}}
+\label{algo:single_step}
+\begin{algorithmic}[1]
+\REQUIRE Model $\mathcal{M}$, datasets $D_f$, $D_r$, $D_{\text{new}}$, hyperparameters $\alpha$, $\beta$, $\gamma$, rank $r$
+\ENSURE Updated model $\mathcal{M}_{\text{updated}}$
+
+\STATE $\mathcal{M}_{\text{LoRA}} \leftarrow \textit{apply\_lora}(\mathcal{M}, r)$
+\FOR{each training iteration}
+    \STATE Sample batches: $(f_d, f_t) \sim D_f$, $(r_d, r_t) \sim D_r$, $(n_d, n_t) \sim D_{\text{new}}$
+    \STATE $f_{\text{logits}} \leftarrow \mathcal{M}_{\text{LoRA}}(f_d)$
+    \STATE $r_{\text{logits}} \leftarrow \mathcal{M}_{\text{LoRA}}(r_d)$
+    \STATE $n_{\text{logits}} \leftarrow \mathcal{M}_{\text{LoRA}}(n_d)$
+    
+    \STATE $\mathcal{L}_{\text{forget}} \leftarrow \text{ReLU}(\text{BND} - \mathcal{L}(f_{\text{logits}}, f_t))$
+    \STATE $\mathcal{L}_{\text{retain}} \leftarrow \mathcal{L}(r_{\text{logits}}, r_t)$
+    \STATE $\mathcal{L}_{\text{new}} \leftarrow \mathcal{L}(n_{\text{logits}}, n_t)$
+    
+    \STATE $\mathcal{L}_{\text{total}} \leftarrow \alpha \mathcal{L}_{\text{retain}} + \beta \mathcal{L}_{\text{forget}} + \gamma \mathcal{L}_{\text{new}}$
+    \STATE Update $\mathcal{M}_{\text{LoRA}}$ using $\nabla \mathcal{L}_{\text{total}}$
+\ENDFOR
+\RETURN $\mathcal{M}_{\text{updated}}$
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}[htbp]
+\caption{\textit{multi\_step()}}
+\label{algo:multi_step}
+\begin{algorithmic}[1]
+\REQUIRE Pre-trained model $\mathcal{M}_0$, complete dataset $D$, task sequence $T$
+\ENSURE Final adapted model $\mathcal{M}_T$
+
+\STATE $\mathcal{M}_{\text{current}} \leftarrow \mathcal{M}_0$
+\FOR{each step $t \in \{1, 2, \ldots, T\}$}
+    \STATE Generate task-specific datasets: $D_{f_t}$, $D_{r_t}$, $D_{\text{new}_t}$ from $D$
+    \STATE Set hyperparameters: rank $r$, weights $\alpha$, $\beta$, $\gamma$
+    \STATE $\mathcal{M}_{\text{current}} \leftarrow \textit{single\_step}(\mathcal{M}_{\text{current}}, D_{f_t}, D_{r_t}, D_{\text{new}_t}, \alpha, \beta, \gamma, r)$
+\ENDFOR
+\RETURN $\mathcal{M}_T \leftarrow \mathcal{M}_{\text{current}}$
+\end{algorithmic}
+\end{algorithm}

@@ -1,0 +1,101 @@
+\documentclass[10pt]{article}
+\usepackage{tmlr}
+% For camera-ready (accepted): \usepackage[accepted]{tmlr}
+% For preprint/arXiv: \usepackage[preprint]{tmlr}
+
+% Optional math commands from Deep Learning book notation
+\input{math_commands.tex}
+
+%%% Packages ported from IEEE TAI submission %%%
+\usepackage[colorlinks,urlcolor=blue,linkcolor=blue,citecolor=blue]{hyperref}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{adjustbox}
+\usepackage{cancel}
+\usepackage{pdflscape}
+\usepackage{pifont}
+\usepackage{soul}
+\usepackage{array}
+\usepackage{subcaption}
+
+
+
+% Custom commands
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+\definecolor{bestgreen}{RGB}{144, 238, 144}
+\definecolor{secondblue}{RGB}{173, 216, 230}
+\newcommand{\best}[1]{\cellcolor{bestgreen}#1}
+\newcommand{\second}[1]{\cellcolor{secondblue}#1}
+\setlength{\fboxsep}{1pt}
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.10}
+\renewcommand{\floatpagefraction}{0.75}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{3}
+\setcounter{totalnumber}{5}
+
+%%% Paper metadata (review version: authors hidden) %%%
+\title{BID-LoRA: A Parameter-Efficient Framework for Continual Learning and Unlearning}
+
+% Authors must not appear in the submitted version.
+% Non-anonymous submissions will be rejected without review.
+\author{\name Jagadeesh~Rachapudi \email s23096@students.iitmandi.ac.in \\
+      \addr Indian Institute of Technology Mandi, India
+      \AND
+      \name Ritali~Vatsi \email d23059@students.iitmandi.ac.in \\
+      \addr Indian Institute of Technology Mandi, India
+      \AND
+      \name Praful~Hambarde \email praful@iitmandi.ac.in \\
+      \addr Indian Institute of Technology Mandi, India
+      \AND
+      \name Amit~Shukla \email amitshukla@iitmandi.ac.in \\
+      \addr Indian Institute of Technology Mandi, India}
+
+\def\month{MM}
+\def\year{YYYY}
+\def\openreview{\url{https://openreview.net/forum?id=XXXX}}
+
+\begin{document}
+
+\maketitle
+
+\input{sec/0_abstract}
+\input{sec/1_intro}
+\input{sec/2_related_Work}
+\input{sec/3_Problem_Setting}
+\input{sec/4_Method}
+\input{sec/6_results}
+\input{sec/5_Experiments}
+\input{sec/7_abalistion}
+\input{sec/8_dissusions}
+\input{sec/9_Conclusion}
+
+\bibliography{tmlr}
+\bibliographystyle{tmlr}
+
+\appendix
+% \section{Appendix}
+% Add appendix content here if needed.
+
+\end{document}

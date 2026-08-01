@@ -148,7 +148,7 @@ As discussed in Section~\ref{4.3}, placing $d^*$ on the unit sphere leads to uns
 \begin{table}[!htbp]
 \centering
 \footnotesize
-\caption{\textcolor{red}{Unlearning evidence under attack, evaluated on the Task-6 checkpoint of CIFAR-100 over all 60 classes forgotten during Tasks 1--6 (mean $\pm$ std over 3 seeds). \emph{Original} is the pre-adaptation model (information present by construction); \emph{Oracle} is retrained from scratch without $D_f$ (information absent by construction). The Oracle column, not a fixed constant, is the target for every row. Model inversion additionally covers class-prototype extraction, as the two attacks share a procedure. Chance level for the linear probe is $1/60 = 1.67\%$. MIA uses a 3-layer MLP over per-sample loss and confidence features, 5 attack initialisations, and balanced member/non-member sets of 200 samples per class, where non-members are held-out images of the same forgotten classes.}}
+\caption{\textcolor{red}{Unlearning evidence under attack, on the Task-6 CIFAR-100 checkpoint over all 60 classes forgotten during Tasks 1--6.}}
 \label{tab:unlearning_evidence}
 \textcolor{red}{
 \begin{tabular}{lccc}
@@ -179,4 +179,4 @@ As discussed in Section~\ref{4.3}, placing $d^*$ on the unit sphere leads to uns
 }
 \end{table}
 
-\textcolor{red}{\emph{Original} and \emph{Oracle} bracket each attack: information present versus absent by construction; the Oracle column, not $0.5$, is the target. BID-LoRA matches it on all eleven measurements. The high Sink with a probe below Oracle shows collapse, not relabelling; 5-shot relearning recovers no faster than from scratch, which is what we mean by irreversible. These are empirical, attack-relative results, not a formal guarantee.}
+\textcolor{red}{\emph{Original} is the pre-adaptation model and \emph{Oracle} is retrained from scratch without $D_f$, so the two bracket each attack: information present versus absent by construction. The Oracle column, not $0.5$, is therefore the target for every row, and BID-LoRA matches it on all eleven measurements. The high Sink with a probe below Oracle (chance $1/60=1.67\%$) shows collapse, not relabelling; 5-shot relearning recovers no faster than from scratch, which is what we mean by irreversible. All three MIAs use a 3-layer MLP over per-sample loss and confidence features, 5 attack initialisations, and balanced sets of 200 samples per class, with non-members drawn from held-out images of the same forgotten classes; the adaptive variant instead thresholds $\lVert \text{emb}(x)-t_{\text{escape}} \rVert$. Model inversion additionally covers class-prototype extraction, as the two share a procedure. These are empirical, attack-relative results, not a formal guarantee.}

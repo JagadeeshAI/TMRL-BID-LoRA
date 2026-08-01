@@ -6,7 +6,7 @@ In this section, we provide an in-depth discussion of several critical aspects o
 \label{8.1}
 Effective unlearning requires distinguishing what to forget from what to retain. This section investigates whether forget data ($D_f$) or retain buffer ($D_r$, a subset of full retain data $D^\text{full}_r$) can be avoided in classification and face recognition tasks.
 
-We find $D_r$ is fundamentally unavoidable for preserving task-critical knowledge. Without architectural support (e.g., modular pathways), all parameters are adjusted using both $D_f$ and $D^\text{full}_r$ during pretraining, making disentanglement infeasible without $D_r$ access.
+We find $D_r$ unavoidable for preserving task-critical knowledge: pretraining adjusts all parameters using both $D_f$ and $D^\text{full}_r$, making disentanglement infeasible without $D_r$ access.
 
 
 \begin{table}[!htbp]
@@ -27,13 +27,15 @@ $\lambda_{\text{esc}}$ & $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow
 \end{table}
 
 
-Only noise-based impair-and-repair methods~\cite{tarun2023fast} and source-free unlearning~\cite{ahmed2025towards} attempt to bypass data dependencies. The former still requires $D_r$. Source-free methods estimate retain data Hessians using only $D_f$ through semi-definite programming, but are limited to convex losses and linear classifiers, making them inapplicable to modern non-convex architectures like transformers and ResNets. In practice, they use frozen pre-trained feature extractors and unlearn only linear heads. While error bounds improve with dimensionality, Hessian storage and inversion become computationally prohibitive.
+Only noise-based impair-and-repair~\cite{tarun2023fast} and source-free unlearning~\cite{ahmed2025towards} attempt to bypass this; the former still requires $D_r$, and the latter estimates retain-data Hessians from $D_f$ alone but is limited to convex losses and linear heads, making it inapplicable to transformers.
 
-All established methods for non-convex models critically rely on $D_r$. Weight-importance methods (EWC~\cite{kirkpatrick2017overcoming}, SALUN~\cite{fan2023salun}) compute Fisher information or saliency from $D_r$ to protect retain-relevant weights. SCRUB~\cite{kurmanji2023towards} and GS-LoRA~\cite{zhao2024continual} explicitly leverage $D_r$ to safeguard retained knowledge. CLU methods universally depend on $D_r$: LSF~\cite{shibata2021learning} uses mnemonic codes, UnCLe~\cite{adhikari2025unlearning} employs task embeddings, CLPU-DER++~\cite{liu2022continual} maintains experience replay, and UniCLUN~\cite{chatterjee2024unified} and UG-CLU~\cite{huang2025unified} incorporate $D_r$ for stability.
+All established methods for non-convex models rely on $D_r$: weight-importance methods~\cite{kirkpatrick2017overcoming,fan2023salun} derive Fisher or saliency scores from it, SCRUB~\cite{kurmanji2023towards} and GS-LoRA~\cite{zhao2024continual} use it to safeguard retained knowledge, and every CLU method~\cite{shibata2021learning,adhikari2025unlearning,liu2022continual,chatterjee2024unified,huang2025unified} incorporates it for stability.
 
 Generative tasks present exceptions: FLAT~\cite{wang2024llm} solves unlearning without $D_r$ through regularizers, while ESD~\cite{gandikota2023erasing} avoids both $D_f$ and $D_r$ using teacher models to generate synthetic samples.
 
-While $D_f$ can theoretically be avoided through noise-based proxies or source-free methods, no viable approach eliminates $D_r$ dependence for non-convex deep learning without compromising retention performance.
+While $D_f$ can be avoided through noise-based proxies or source-free methods, no viable approach eliminates $D_r$ dependence for non-convex models without compromising retention.
+
+\textcolor{red}{Necessity, however, does not settle legitimacy. $D_r$ is not an incidental copy of the training data: it is drawn only from subjects who explicitly consent to retention, and consent, not volume, is what distinguishes it from storing $D^\text{full}_r$. Consent is revocable; withdrawn samples are purged and replenished from the remaining consenting pool, which we assume is large enough to sustain the 10\% quota that Table~\ref{tab:buffer_ratio} shows is sufficient.}
 
 \subsection{Knowledge Leakage Analysis}
 \label{8.2}

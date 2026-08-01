@@ -1,0 +1,42 @@
+# Shell scripts
+*.sh
+
+# LaTeX intermediate files
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.dvi
+*.xdv
+*.nav
+*.snm
+*.vrb
+*.bcf
+*.run.xml
+*.idx
+*.ind
+*.ilg
+*.glo
+*.gls
+*.glg
+*.acn
+*.acr
+*.alg
+
+# Editor/OS files
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Temp/build output
+*.tmp
+*.bak
+_minted*/

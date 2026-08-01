@@ -99,7 +99,7 @@ where \text{CE} indicates cross entropy loss $\mathbf{z}_n$ are logits and $y_n$
 Each loss backpropagates exclusively through its designated adapter and classifier head nodes. During gradient updates, non-target adapters are frozen and non-target head gradients are masked to zero. Specifically, $\mathcal{L}_{\text{\textit{f}}}$, $\mathcal{L}_{\text{\textit{ret}}}$, and $\mathcal{L}_{\text{\textit{new}}}$ update only their respective adapters $(B, A)$ and corresponding classifier head nodes. This ensures forgetting cannot corrupt retained knowledge and each adapter specializes to its function, as per assumption~2 (Section~\ref{3.2}), if only learning or unlearning is required, the corresponding loss terms are masked accordingly.
 
 \label{4.4}
-Algorithm~\ref{alg:bidlora} summarizes the complete BID-LoRA training procedure. Each iteration performs gradient-isolated updates for retain, forget, and new pathways sequentially, ensuring no cross-pathway interference. After training, adapters merge into base weights for efficient inference.
+Algorithm~\ref{alg:bidlora} summarizes the complete BID-LoRA training procedure. Each iteration performs gradient-isolated updates for retain, forget, and new pathways sequentially, ensuring no cross-pathway interference. After training, adapters merge into base weights for efficient inference. \textcolor{blue}{Post-merge, all adapter matrices and the pre-adaptation checkpoint must be permanently deleted to ensure irreversible unlearning (Assumption~4, Section~\ref{3.2}).}
 \begin{algorithm}[!htbp]
 \caption{BID-LoRA Training}
 \label{alg:bidlora} 
@@ -143,7 +143,8 @@ and $\mathcal{S}$ be the LoRA scaling factor
 \EndFor
 
 \State \textbf{// Merge adapters}
-\State $W \gets W + \mathcal{S}(B_{\text{\textit{ret}}}A_{\text{\textit{ret}}} + B_{\text{\textit{new}}}A_{\text{\textit{new}}} - B_{\text{\textit{f}}}A_{\text{\textit{f}}})$
+\State \textcolor{blue}{$W \gets W + \mathcal{S}(B_{\text{\textit{ret}}}A_{\text{\textit{ret}}} + B_{\text{\textit{new}}}A_{\text{\textit{new}}} + B_{\text{\textit{f}}}A_{\text{\textit{f}}})$}
+\State \textcolor{blue}{\textbf{Delete} $(B_f, A_f)$, $(B_\text{\textit{ret}}, A_\text{\textit{ret}})$, $(B_\text{\textit{new}}, A_\text{\textit{new}})$, and pre-adaptation checkpoint $\mathcal{M}_\text{orig}$}
 
 \State \Return $\mathcal{M}$
 \end{algorithmic}

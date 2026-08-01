@@ -68,7 +68,7 @@ BID-LoRA assumes the following conditions hold:
     \item A replay buffer $D_r$ with $|D_r| \geq 0.1|D^\text{\textit{full}}_r|$ is available.
     \item Learning and unlearning occur simultaneously; if only one is needed, the corresponding loss is masked (see Section~\ref{4.3}).
     \item Data partitions satisfy $D = D^\text{\textit{full}}_r \cup D_f$, $D^\text{\textit{full}}_r \cap D_f = \emptyset$, $D_{\text{new}} \cap D = \emptyset$.
-    \item \textcolor{blue}{Post-merge, all adapter matrices and the pre-adaptation checkpoint are permanently deleted, making unlearning irreversible by eliminating any basis for reconstructing forgotten knowledge.}
+    \item \textcolor{blue}{All adapter matrices permanently deleted post-merge.}
 \end{enumerate}
 
 

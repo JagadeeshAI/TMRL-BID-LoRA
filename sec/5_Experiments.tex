@@ -11,7 +11,7 @@
 
 \medskip
 \noindent
-\textit{Theoretical Best:} We compare all baseline methods and our approach against Oracle-model performance, which serves as the theoretical and practical upper bound. Oracle models are obtained by directly training on each target class range (e.g., classes 10-39 for task 1, classes 20-49 for task 2 ... utill task 6) without any low-rank adaptations, incremental learning, or unlearning approaches. This provides a clean baseline that follows the same 6-task sliding window protocol, allowing us to measure how close our continual adaptation approach comes to optimal performance. The Oracle comparison quantifies how close our continual adaptation approach comes to optimal retraining performance.
+\textit{Theoretical Best:} We compare all baseline methods and our approach against Oracle-model performance, which serves as the theoretical and practical upper bound. Oracle models are obtained by directly training on each target class range (e.g., classes 10-39 for task 1, classes 20-49 for task 2 ... until task 6) without any low-rank adaptations, incremental learning, or unlearning approaches. This provides a clean baseline that follows the same 6-task sliding window protocol, allowing us to measure how close our continual adaptation approach comes to optimal performance. The Oracle comparison quantifies how close our continual adaptation approach comes to optimal retraining performance.
 
 \medskip
 \noindent
@@ -40,7 +40,7 @@ For baselines, we adopt implementations of existing CLU methods discussed in Sec
 
 \medskip
 \noindent
-Tables~\ref{tab:classification} and~\ref{tab:face_recognisition} present results for CIFAR-100 classification and CASIA-Face100 recognition. BID-LoRA achieves first (\textcolor{green}{green}) or second-best (\textcolor{blue}{blue}) performance across nearly all metrics while using only $\approx$ 5.08\% tunable parameters compared to 100\% for all baselines.
+Tables~\ref{tab:classification} and~\ref{tab:face_recognition} present results for CIFAR-100 classification and CASIA-Face100 recognition. BID-LoRA achieves first (\textcolor{green}{green}) or second-best (\textcolor{blue}{blue}) performance across nearly all metrics while using only $\approx$ 5.08\% tunable parameters compared to 100\% for all baselines.
 
 \medskip
 \noindent

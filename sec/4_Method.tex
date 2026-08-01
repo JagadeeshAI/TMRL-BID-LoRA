@@ -3,7 +3,7 @@
 \subsection{Overview}
 \label{4.1}
 
-Given the CLU objectives in Section~\ref{1.0}, we propose Bi-Directional LoRA (BID-LoRA). The name reflects the framework dual nature: one direction incorporates new knowledge Eq.~\ref{Eq:3c}, while the other removes unwanted knowledge Eq. ~\ref{Eq:3a}, all while preserving retained knowledge Eq. ~\ref{Eq:3b}.
+Given the CLU objectives in Section~\ref{1.0}, we propose Bi-Directional LoRA (BID-LoRA). The name reflects the framework's dual operational direction: one direction incorporates new knowledge Eq.~\ref{Eq:3c}, while the other removes unwanted knowledge Eq.~\ref{Eq:3a}, all while preserving retained knowledge Eq.~\ref{Eq:3b}. \textcolor{red}{The ``Bi-Directional'' thus refers to these two opposing knowledge operations---learning and unlearning---not to the number of adapters. Three adapters (retain, new, forget) are the implementation mechanism that realizes this bidirectional design.}
 
 BID-LoRA employs three dedicated LoRA adapters each with a separate pathway for retention, acquisition, and forgetting along with corresponding loss functions. This pathway separation prevents gradient interference between competing objectives. To maintain parameter efficiency, only lightweight adapters in attention layers are trained while the backbone remains frozen, following evidence that smaller network alterations reduce catastrophic forgetting~\cite{zhao2024continual}. Additionally, a replay buffer $D_r$ (see Section~\ref{3}) mitigates catastrophic forgetting of retained classes. Section~\ref{4.3} details the loss functions.
 

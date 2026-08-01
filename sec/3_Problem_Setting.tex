@@ -16,7 +16,6 @@ f_{\mathcal{M}} :
 \mathcal{X}_{D_r} \rightarrow \mathcal{Y}_{D_r} \; ; \;
 \mathcal{X}_{D_{\text{new}}} \cancel{\rightarrow} \mathcal{Y}_{D_{\text{new}}}.
 \label{eq:1}
-\tag{1}
 \end{equation}
 }
 
@@ -28,7 +27,7 @@ f_{\mathcal{M'}} :
 \mathcal{X}_{D_f} \cancel{\rightarrow} \mathcal{Y}_{D_f} \; ; \;
 \mathcal{X}_{D_r} \rightarrow \mathcal{Y}_{D_r} \; ; \;
 \mathcal{X}_{D_{\text{new}}} \rightarrow \mathcal{Y}_{D_{\text{new}}}.
-\label{eq:2} \tag{2}
+\label{eq:2}
 \end{equation}
 }
 Here, \( \cancel{\rightarrow} \) denotes that the mapping no longer holds (i.e., the model has forgotten the corresponding mapping), while \( \rightarrow \) indicates that the mapping still holds. 
@@ -43,14 +42,16 @@ The algorithm $\mathcal{F}$ is applied as:
 The adaptation algorithm $\mathcal{F}$ takes the previous-step model $\mathcal{M^\text{{(t - 1})}}$ along with the datasets 
 $D_{r}^\text{(t)}$, $D_{f}^\text{(t)}$, and $D_{\text{new}}^\text{(t)}$ to produce the updated model $\mathcal{M^\text{(t)}}$. Thus, $\mathcal{F}$ handles adaptation requests sequentially, starting from $\mathcal{M}$ and generating  a sequence of models $\mathcal{M^\text{(1)}}, \; \mathcal{M^\text{(2)}}, \; \mathcal{M^\text{(3)}}, \; \ldots, \; \mathcal{M^\text{(t)}}, \; \ldots, \; \mathcal{M^\text{(T)}}$,  where $\mathcal{M^\text{(t)}}$ represents the modified model after the $t$-th adaptation task.
 
-\label{Eq:3}
-
 After step $t$, the adapted model $\mathcal{M}^{(t)}$ must satisfy:
 
-\begin{align} 
-    f_{\mathcal{M}^{(t)}} &: \mathcal{X}_{D_{f}^{(i)}} \cancel{\rightarrow} \mathcal{Y}_{D_{f}^{(i)}}, \quad \forall \, i \leq t \tag{3a} \label{Eq:3a} \\ f_{\mathcal{M}^{(t)}} &: \mathcal{X}_{D_{r}^{(t)}} \rightarrow \mathcal{Y}_{D_{r}^{(t)}} \tag{3b} \label{Eq:3b} \\ 
-    f_{\mathcal{M}^{(t)}} &: \mathcal{X}_{D_{\text{new}}^{(i)}} \rightarrow \mathcal{Y}_{D_{\text{new}}^{(i)}} \tag{3c} \label{Eq:3c} 
+\begin{subequations}
+\label{Eq:3}
+\begin{align}
+    f_{\mathcal{M}^{(t)}} &: \mathcal{X}_{D_{f}^{(i)}} \cancel{\rightarrow} \mathcal{Y}_{D_{f}^{(i)}}, \quad \forall \, i \leq t \label{Eq:3a} \\
+    f_{\mathcal{M}^{(t)}} &: \mathcal{X}_{D_{r}^{(t)}} \rightarrow \mathcal{Y}_{D_{r}^{(t)}} \label{Eq:3b} \\
+    f_{\mathcal{M}^{(t)}} &: \mathcal{X}_{D_{\text{new}}^{(i)}} \rightarrow \mathcal{Y}_{D_{\text{new}}^{(i)}} \label{Eq:3c}
 \end{align}
+\end{subequations}
 
 
 We define successful CLU as 

@@ -3,7 +3,7 @@
 \subsection{Experimental Setup}
 \medskip
 \noindent
-\textit{Datasets and Pre-trained Models:} We evaluate BID-LoRA on classification and face recognition tasks. For classification, we use CIFAR-100 \cite{krizhevsky2009learning} and adopt data-efficient image transformers \cite{touvron2021training} as the backbone. For face recognition, we use CASIA-Face100, which contains 100 identities sampled from CASIA-WebFace \cite{yi2014learning} and constructed in \cite{zhao2024continual}, with a Face Transformer \cite{zhong2021face} as the backbone. We use $D_r$ as 10\% of $D^\text{full}_r$ as buffer. We use uniform rank 8 for both retain and new adapters, while the forget adapter uses rank 4.
+\textit{Datasets and Pre-trained Models:} We evaluate BID-LoRA on classification and face recognition tasks. For classification, we use CIFAR-100 \cite{krizhevsky2009learning} and adopt data-efficient image transformers \cite{touvron2021training} as the backbone. For face recognition, we use CASIA-Face100, which contains 100 identities sampled from CASIA-WebFace \cite{yi2014learning} and constructed in \cite{zhao2024continual}, with a Face Transformer \cite{zhong2021face} as the backbone. We use $D_r$ as 10\% of $D^\text{full}_r$ as buffer. We use uniform rank 8 for both retain and new adapters, while the forget adapter uses rank 4. \textcolor{red}{All BID-LoRA results are averaged over 3 random seeds and reported as mean$_{\pm\text{std}}$.}
 
 \medskip
 \noindent
@@ -16,7 +16,7 @@
 \medskip
 \noindent
 \textit{Metrics:} 
-We evaluate our approach based on the performance of forgotten, retained, and newly learned classes using class accuracy, Membership Inference Attack (MIA) success rate, and KL divergence. Following Huang et al.~\cite{huang2025unified}, we define: forget accuracy $Acc_f$ as performance on forgotten data, retain accuracy $Acc_r$ as performance on retained data, new accuracy $Acc_{n}$ as performance on newly added data, and overall accuracy $Acc_o$ as performance across combined retained and new classes. To verify effective unlearning, we measure the MIA success rate as suggested by~\cite{choquette2021label}, and compute KL divergence between each model and the oracle model to assess logit-level similarity. We also report the tunable ratio, defined as the proportion of parameters updated during CLU steps, to indicate practical usability under resource-constrained scenarios.
+We evaluate our approach based on the performance of forgotten, retained, and newly learned classes using class accuracy, Membership Inference Attack (MIA) success rate, and KL divergence. Following Huang et al.~\cite{huang2025unified}, we define: forget accuracy $Acc_f$ as \textcolor{red}{cumulative} performance on \textcolor{red}{all previously} forgotten data \textcolor{red}{(forgetting persistence)}, retain accuracy $Acc_r$ as performance on retained data, new accuracy $Acc_{n}$ as performance on newly added data, and overall accuracy $Acc_o$ as performance across combined retained and new classes. To verify effective unlearning, we measure the MIA success rate as suggested by~\cite{choquette2021label}, and compute KL divergence between each model and the oracle model to assess logit-level similarity. We also report the tunable ratio, defined as the proportion of parameters updated during CLU steps, to indicate practical usability under resource-constrained scenarios.
 
 
 \begin{figure}[!htbp]

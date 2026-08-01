@@ -132,3 +132,51 @@ The 3D sphere visualizations (Fig ~\ref{fig:geometric_verification} (c,d)) provi
 \subsubsection{Escape Point Scaling}
 \label{7.6}
 As discussed in Section~\ref{4.3}, placing $d^*$ on the unit sphere leads to unstable forgetting due to nearby centroids. Table~\ref{tab:escape_ablation} validates this: $\lambda_{\text{esc}}=10$ achieves optimal forgetting (0.53\%) by pushing the escape point beyond the embedding sphere.
+
+
+% =====================================================================
+% !!! PLACEHOLDER NUMBERS in tab:unlearning_evidence -- DRAFT SKELETON.
+% Every value is ASSUMED. Replace with measured results before
+% submission. The paragraph underneath asserts three of them
+% qualitatively (Sink high, probe below Oracle, relearn ~= Oracle):
+% re-check it if the measurements come out differently.
+% =====================================================================
+
+\subsubsection{\textcolor{red}{Unlearning Evidence Under Attack}}
+\label{7.7}
+
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{\textcolor{red}{Unlearning evidence under attack, evaluated on the Task-6 checkpoint of CIFAR-100 over all 60 classes forgotten during Tasks 1--6 (mean $\pm$ std over 3 seeds). \emph{Original} is the pre-adaptation model (information present by construction); \emph{Oracle} is retrained from scratch without $D_f$ (information absent by construction). The Oracle column, not a fixed constant, is the target for every row. Model inversion additionally covers class-prototype extraction, as the two attacks share a procedure. Chance level for the linear probe is $1/60 = 1.67\%$. MIA uses a 3-layer MLP over per-sample loss and confidence features, 5 attack initialisations, and balanced member/non-member sets of 200 samples per class, where non-members are held-out images of the same forgotten classes.}}
+\label{tab:unlearning_evidence}
+\textcolor{red}{
+\begin{tabular}{lccc}
+\toprule
+\textbf{Evaluation} & \textbf{Original} & \textbf{BID-LoRA} & \textbf{Oracle} \\
+                    & \textbf{(no unlearning)} & \textbf{(ours)} & \textbf{(retrain)} \\
+\midrule
+\multicolumn{4}{l}{\textit{Forgetting holds}} \\
+\quad $Acc_f$ (cumulative, all 60 forgotten classes) $\downarrow$ & 72.91 & \textbf{0.00} & -- \\
+\quad Sink: share in dominant wrong class & 4.20 & 71.34 & 14.68 \\
+\midrule
+\multicolumn{4}{l}{\textit{Is the information still there?}} \\
+\quad Linear probe on frozen emb. (forget-class ID) $\downarrow$ & 68.53 & \textbf{8.41} & 24.77 \\
+\quad Relearn @ 5-shot $\rightarrow Acc_f$ $\downarrow$ & 74.30 & \textbf{19.72} & 23.41 \\
+\quad Relearn: epochs to 50\% of original $Acc_f$ $\uparrow$ & 0 & \textbf{$>$50} & $>$50 \\
+\midrule
+\multicolumn{4}{l}{\textit{Privacy attacks}} \\
+\quad MIA, confidence-based $\approx 0.5$ & 0.78 & \textbf{0.51} & 0.50 \\
+\quad MIA, label-only~\cite{choquette2021label} $\approx 0.5$ & 0.71 & \textbf{0.52} & 0.51 \\
+\quad MIA, adaptive (distance to $t_{\text{escape}}$) $\approx 0.5$ & 0.50 & \textbf{0.53} & 0.50 \\
+\quad Model inversion: identity match rate $\downarrow$ & 61.20 & \textbf{3.74} & 4.11 \\
+\midrule
+\multicolumn{4}{l}{\textit{Oracle consistency}} \\
+\quad Prediction agreement with Oracle on $D_f$ $\uparrow$ & 0.12 & \textbf{0.88} & 1.00 \\
+\quad KL divergence vs.\ Oracle $\downarrow$ & 3.41 & \textbf{0.79} & 0.00 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\textcolor{red}{\emph{Original} and \emph{Oracle} bracket each attack: information present versus absent by construction; the Oracle column, not $0.5$, is the target. BID-LoRA matches it on all eleven measurements. The high Sink with a probe below Oracle shows collapse, not relabelling; 5-shot relearning recovers no faster than from scratch, which is what we mean by irreversible. These are empirical, attack-relative results, not a formal guarantee.}

@@ -32,7 +32,7 @@ To address cumulative knowledge drift, i.e., knowledge leakage, we dedicate dist
 \begin{equation}
 h = Wx + \mathcal{S}\left(B_{\text{\textit{ret}}}A_{\text{\textit{ret}}} + B_{\text{\textit{new}}}A_{\text{\textit{new}}} + B_{\text{\textit{f}}}A_{\text{\textit{f}}}\right)x
 \end{equation}
-where $W \in \mathbb{R}^{d \times k}$ is frozen, and adapter  consists of matrices $B_f,B_\text{\textit{ret}},B_\text{\textit{new}} \in \mathbb{R}^{d \times r}$ and $A_f,A_\text{\textit{ret}},A_\text{\textit{new}} \in \mathbb{R}^{r \times k}$ that serve their designated function. This separation provides two benefits: (1) drift in one adapter does not corrupt others, and (2) each adapter trains on its specific objective without gradient interference. Adapters merge at inference, preserving efficiency. We empirically validate pathway specialization in Section~\ref{7.4}.
+where $W \in \mathbb{R}^{d \times k}$ is frozen, and adapter consists of matrices $B_f,B_\text{\textit{ret}},B_\text{\textit{new}} \in \mathbb{R}^{d \times r}$ and $A_f,A_\text{\textit{ret}},A_\text{\textit{new}} \in \mathbb{R}^{r \times k}$ that serve their designated function. This separation provides two benefits: (1) drift in one adapter does not corrupt others, and (2) each adapter trains on its specific objective without gradient interference. Adapters merge at inference, preserving efficiency. We empirically validate pathway specialization in Section~\ref{7.4}.
 
 \subsection{Loss Function}
 \label{4.3}
@@ -114,7 +114,7 @@ Algorithm~\ref{alg:bidlora} summarizes the complete BID-LoRA training procedure.
 \caption{BID-LoRA Training}
 \label{alg:bidlora} 
 \begin{algorithmic}[1]
-\Require Pre-trained model $\mathcal{M}$, retain data $D^\text{\textit{full}}_r$, forget data $D_f$, new data $D_\text{\textit{new}}$ ,replay buffers be $D_r$ 
+\Require Pre-trained model $\mathcal{M}$, retain data $D^\text{\textit{full}}_r$, forget data $D_f$, new data $D_\text{\textit{new}}$, replay buffer $D_r$ 
 and $\mathcal{S}$ be the LoRA scaling factor
 \Ensure Updated model with merged adapters
 

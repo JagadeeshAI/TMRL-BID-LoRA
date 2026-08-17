@@ -72,11 +72,12 @@ UnCLe         & 100\% & 0.87 & 70.98 & 77.82 & 74.42 & 0.00 & 67.00 & 80.00 & 71
 % submission.
 \begin{table}[!htbp]
 \centering
-\renewcommand{\arraystretch}{1.30}
+\scriptsize
+\renewcommand{\arraystretch}{0.92}
 \caption{\textcolor{red}{Performance comparison across all 12 continual learning-unlearning tasks on Face Recognition on VGGFace2 (200 identities). KL divergence and MIA are reported in the ablation study (Section~\ref{7.0}). BID-LoRA results are mean$_{\pm\text{std}}$ over 3 seeds. Values shown are placeholder/dummy, pending real experiments.}}
 \label{tab:face_recognition}
 \begin{adjustbox}{max width=\textwidth}
-\setlength{\tabcolsep}{3pt}
+\setlength{\tabcolsep}{1.5pt}
 \begin{tabular}{l|c|cccc|cccc}
 \toprule
 \multirow{2}{*}{\textbf{Method}} & \multirow{2}{*}{\textbf{Tunable} $\downarrow$}
@@ -96,7 +97,7 @@ UnCLe         & 100\% & 0.20 & 90.25 & 91.72 & 90.74 & 0.54 & 91.87 & 90.89 & 91
 \rowcolor{pink!15}
 \textbf{BID-LoRA} & 5.00\% & $\kern6pt0.20_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt91.98_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt94.12_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt92.69_{\scriptscriptstyle \pm 0.20}\kern-6pt$ & $\kern6pt0.50_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt92.46_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt93.74_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt92.89_{\scriptscriptstyle \pm 0.20}\kern-6pt$ \\
 \midrule
-\addlinespace[0.2cm]
+\addlinespace[0.05cm]
 \midrule
 \multirow{2}{*}{\textbf{Method}} & \multirow{2}{*}{\textbf{Tunable} $\downarrow$}
 & \multicolumn{4}{c|}{\textbf{Task-3}} & \multicolumn{4}{c}{\textbf{Task-4}} \\
@@ -115,7 +116,7 @@ UnCLe         & 100\% & 0.21 & 88.33 & 93.68 & 90.11 & 0.21 & 91.71 & 93.38 & 92
 \rowcolor{pink!15}
 \textbf{BID-LoRA} & 5.00\% & $\kern6pt0.58_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt92.02_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt92.84_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt92.29_{\scriptscriptstyle \pm 0.20}\kern-6pt$ & $\kern6pt0.28_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt92.11_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt93.29_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt92.50_{\scriptscriptstyle \pm 0.20}\kern-6pt$ \\
 \midrule
-\addlinespace[0.2cm]
+\addlinespace[0.05cm]
 \midrule
 \multirow{2}{*}{\textbf{Method}} & \multirow{2}{*}{\textbf{Tunable} $\downarrow$}
 & \multicolumn{4}{c|}{\textbf{Task-5}} & \multicolumn{4}{c}{\textbf{Task-6}} \\
@@ -133,20 +134,9 @@ UnCLe         & 100\% & 0.05 & 87.55 & 92.14 & 89.08 & 0.45 & 91.77 & 93.38 & 92
 \midrule
 \rowcolor{pink!15}
 \textbf{BID-LoRA} & 5.00\% & $\kern6pt0.71_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt91.64_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt92.63_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt91.97_{\scriptscriptstyle \pm 0.20}\kern-6pt$ & $\kern6pt0.24_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt91.80_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt92.86_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt92.15_{\scriptscriptstyle \pm 0.20}\kern-6pt$ \\
-\bottomrule
-\end{tabular}
-\end{adjustbox}
-\end{table}
-
-% !!! PLACEHOLDER NUMBERS continued (Tasks 7-12) -- see note above.
-\begin{table}[!htbp]
-\centering
-\renewcommand{\arraystretch}{1.30}
-\caption{\textcolor{red}{Performance comparison, Tasks 7--12, continual learning-unlearning on Face Recognition on VGGFace2 (200 identities), continued from Table~\ref{tab:face_recognition}. BID-LoRA results are mean$_{\pm\text{std}}$ over 3 seeds. Values shown are placeholder/dummy, pending real experiments.}}
-\label{tab:face_recognition2}
-\begin{adjustbox}{max width=\textwidth}
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{l|c|cccc|cccc}
+\midrule
+\addlinespace[0.05cm]
+\midrule
 \toprule
 \multirow{2}{*}{\textbf{Method}} & \multirow{2}{*}{\textbf{Tunable} $\downarrow$}
 & \multicolumn{4}{c|}{\textbf{Task-7}} & \multicolumn{4}{c}{\textbf{Task-8}} \\
@@ -165,7 +155,7 @@ UnCLe         & 100\% & 0.93 & 91.39 & 93.16 & 91.98 & 0.54 & 90.65 & 90.01 & 90
 \rowcolor{pink!15}
 \textbf{BID-LoRA} & 5.00\% & $\kern6pt0.28_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt90.92_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt94.26_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt92.03_{\scriptscriptstyle \pm 0.20}\kern-6pt$ & $\kern6pt0.28_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt92.79_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt93.80_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt93.13_{\scriptscriptstyle \pm 0.20}\kern-6pt$ \\
 \midrule
-\addlinespace[0.2cm]
+\addlinespace[0.05cm]
 \midrule
 \multirow{2}{*}{\textbf{Method}} & \multirow{2}{*}{\textbf{Tunable} $\downarrow$}
 & \multicolumn{4}{c|}{\textbf{Task-9}} & \multicolumn{4}{c}{\textbf{Task-10}} \\
@@ -184,7 +174,7 @@ UnCLe         & 100\% & 0.07 & 88.19 & 92.34 & 89.57 & 0.40 & 88.70 & 93.31 & 90
 \rowcolor{pink!15}
 \textbf{BID-LoRA} & 5.00\% & $\kern6pt0.19_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt91.06_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt94.37_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt92.16_{\scriptscriptstyle \pm 0.20}\kern-6pt$ & $\kern6pt0.22_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt91.18_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt93.40_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt91.92_{\scriptscriptstyle \pm 0.20}\kern-6pt$ \\
 \midrule
-\addlinespace[0.2cm]
+\addlinespace[0.05cm]
 \midrule
 \multirow{2}{*}{\textbf{Method}} & \multirow{2}{*}{\textbf{Tunable} $\downarrow$}
 & \multicolumn{4}{c|}{\textbf{Task-11}} & \multicolumn{4}{c}{\textbf{Task-12}} \\

@@ -1,5 +1,6 @@
 # Shell scripts
 *.sh
+!install.sh
 
 # LaTeX intermediate files
 *.aux

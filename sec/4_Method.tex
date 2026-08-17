@@ -22,7 +22,7 @@ We employ LoRA-based fine-tuning on attention layers as shown in Fig~\ref{fig:BI
     \label{fig:BIDlora_pipeline}
 \end{figure}
 
-However, standard LoRA in CLU settings suffers from knowledge leakage gradual degradation of retained knowledge across successive steps (see Section~\ref{8.2}). We hypothesize this occurs because a single adapter conflates three competing objectives: retention, acquisition, and forgetting. Interference among these objectives causes cumulative drift resulting in knowledge leakage.
+However, standard LoRA in CLU settings suffers from knowledge leakage gradual degradation of retained knowledge across successive steps (see Section~\ref{8.2}). \textcolor{red}{This is a direct consequence of shared parameterization: a single adapter's low-rank subspace $(B, A)$ must simultaneously satisfy retention, acquisition, and forgetting objectives within one cycle, whose gradients can point in conflicting directions within that same subspace, forcing each update to be a compromise between competing goals. Dedicating a disjoint low-rank subspace to each objective removes this conflict by construction: within a cycle, no objective's gradient can act on another's parameters, since they occupy physically separate matrices rather than a shared one. Each cycle's three adapters are freshly initialized and merged into the frozen base weights $W$ at the end of that cycle (Algorithm~\ref{alg:bidlora}); $W$, not the adapters, is therefore the only state carried across cycles, so a class's role transitioning from new to retained to forgotten over time is mediated by $W$'s accumulated updates, not by any adapter being reused across roles.}
 
 \medskip
 \noindent
@@ -31,8 +31,9 @@ To address cumulative knowledge drift, i.e., knowledge leakage, we dedicate dist
 
 \begin{equation}
 h = Wx + \mathcal{S}\left(B_{\text{\textit{ret}}}A_{\text{\textit{ret}}} + B_{\text{\textit{new}}}A_{\text{\textit{new}}} + B_{\text{\textit{f}}}A_{\text{\textit{f}}}\right)x
+\label{eq:merge}
 \end{equation}
-where $W \in \mathbb{R}^{d \times k}$ is frozen, and adapter consists of matrices $B_f,B_\text{\textit{ret}},B_\text{\textit{new}} \in \mathbb{R}^{d \times r}$ and $A_f,A_\text{\textit{ret}},A_\text{\textit{new}} \in \mathbb{R}^{r \times k}$ that serve their designated function. This separation provides two benefits: (1) drift in one adapter does not corrupt others, and (2) each adapter trains on its specific objective without gradient interference. Adapters merge at inference, preserving efficiency. We empirically validate pathway specialization in Section~\ref{7.4}.
+where $W \in \mathbb{R}^{d \times k}$ is frozen, and adapter consists of matrices $B_f,B_\text{\textit{ret}},B_\text{\textit{new}} \in \mathbb{R}^{d \times r}$ and $A_f,A_\text{\textit{ret}},A_\text{\textit{new}} \in \mathbb{R}^{r \times k}$ that serve their designated function. This separation provides two benefits: (1) drift in one adapter does not corrupt others, and (2) \textcolor{red}{each adapter's \textit{parameters} are updated only by its designated objective, without parameter interference from the other two pathways (gradients are still computed against the shared activation $h$, but only the designated adapter's weights are modified)}. Adapters merge at inference, preserving efficiency. We empirically validate pathway specialization in Section~\ref{7.4}.
 
 \subsection{Loss Function}
 \label{4.3}
@@ -61,7 +62,9 @@ This yields retain centroids $\{c_{r_1}, c_{r_2}, \dots, c_{r_K}\}$ and forget c
 \mathbf{d}^* = \arg\min_{\|\mathbf{d}\|=1} \max_{i} \left( \mathbf{d}^\top c_{r_i} \right)
 \end{equation}
 
-where $\mathbf{d}^* \in \mathbb{R}^{\text{\textit{dim}}}$ is the escape direction vector in the $\textit{dim}$-dimensional embedding space, $\mathbf{d}^\top$ denotes the transpose, and $\mathbf{d}^\top c_{r_i}$ computes the dot product measuring the projection of retain centroid $c_{r_i}$ along direction $\mathbf{d}$. The constraint $\|\mathbf{d}\|=1$ ensures unit norm. The inner $\max_i$ identifies the retain centroid most aligned with $\mathbf{d}$, while the outer $\min$ searches over all unit directions to find $\mathbf{d}^*$ that minimizes this maximum alignment. Starting from a randomly initialized direction, the optimization iteratively converges to $\mathbf{d}^*$, yielding the direction maximally distant from all retain centroids. 
+where $\mathbf{d}^* \in \mathbb{R}^{\text{\textit{dim}}}$ is the escape direction vector in the $\textit{dim}$-dimensional embedding space, $\mathbf{d}^\top$ denotes the transpose, and $\mathbf{d}^\top c_{r_i}$ computes the dot product measuring the projection of retain centroid $c_{r_i}$ along direction $\mathbf{d}$. The constraint $\|\mathbf{d}\|=1$ ensures unit norm. The inner $\max_i$ identifies the retain centroid most aligned with $\mathbf{d}$, while the outer $\min$ searches over all unit directions to find $\mathbf{d}^*$ that minimizes this maximum alignment. Starting from a randomly initialized direction, the optimization iteratively converges to $\mathbf{d}^*$, yielding the direction maximally distant from all retain centroids.
+
+\textcolor{red}{The forget adapter does not assign forgotten samples to another class. It pushes their embeddings toward a single escape point, computed via the minimax objective above to be equally far from every retain class centroid, rather than close to any one of them. Since the target is a point in embedding space and not a class label, the mechanism has no notion of a preferred wrong class to route samples toward. This distinguishes escape unlearning from systematic relabeling, where a model would be trained to consistently output one specific incorrect label (see Section~\ref{7.7} for the empirical Sink measurement that verifies this).}
 
 However, placing the escape point on the unit sphere leads to unstable forgetting (see Section~\ref{7.6}). Therefore, we scale the escape point away from the sphere:
 
@@ -84,7 +87,7 @@ The retention loss preserves knowledge of retain classes and prevents model drif
 \mathcal{L}_{\text{\textit{ret}}} = \lambda_{\text{ce}} \cdot \text{CE}(\mathbf{z}_r, y_r) + \lambda_{\text{emb}} \cdot \text{MSE}(\mathbf{e}_r, \mathbf{e}_t)
 \end{equation}
 
-where $\mathbf{z}_r$ are student logits for retain samples, $y_r$ are ground truth labels, and $\mathbf{e}_r$, $\mathbf{e}_t$ are student and teacher embeddings respectively. The embedding anchor term $\text{MSE}(\mathbf{e}_r, \mathbf{e}_t)$ prevents representation drift by keeping student embeddings close to the teacher (i.e., away from escape point $\mathbf{d}^*$), where the teacher is a frozen copy of the model at initialization.
+where $\mathbf{z}_r$ are student logits for retain samples, $y_r$ are ground truth labels, and $\mathbf{e}_r$, $\mathbf{e}_t$ are student and teacher embeddings respectively. The embedding anchor term $\text{MSE}(\mathbf{e}_r, \mathbf{e}_t)$ prevents representation drift by keeping student embeddings close to the teacher (i.e., away from escape point \textcolor{red}{$\mathbf{t}_{\text{escape}}$}), where the teacher is a frozen copy of the model at initialization.
 
 \medskip
 \noindent
@@ -96,7 +99,12 @@ The model must simultaneously learn new classes using standard cross-entropy:
 
 where \text{CE} indicates cross entropy loss $\mathbf{z}_n$ are logits and $y_n$ are labels for new class samples. 
 
-Each loss backpropagates exclusively through its designated adapter and classifier head nodes. During gradient updates, non-target adapters are frozen and non-target head gradients are masked to zero. Specifically, $\mathcal{L}_{\text{\textit{f}}}$, $\mathcal{L}_{\text{\textit{ret}}}$, and $\mathcal{L}_{\text{\textit{new}}}$ update only their respective adapters $(B, A)$ and corresponding classifier head nodes. This ensures forgetting cannot corrupt retained knowledge and each adapter specializes to its function, as per assumption~2 (Section~\ref{3.2}), if only learning or unlearning is required, the corresponding loss terms are masked accordingly.
+\textcolor{red}{Although the three adapter outputs sum into the shared activation $h$ (Eq.~\ref{eq:merge}) during the forward pass, we isolate optimization at the parameter level: non-target adapters are frozen during each loss's backward pass, so gradients are never applied to their weights even though the forward computation is shared. Consequently each loss updates only its designated adapter and corresponding classifier-head nodes, without altering the other two pathways.} During gradient updates, non-target adapters are frozen and non-target head gradients are masked to zero. Specifically, $\mathcal{L}_{\text{\textit{f}}}$, $\mathcal{L}_{\text{\textit{ret}}}$, and $\mathcal{L}_{\text{\textit{new}}}$ update only their respective adapters $(B, A)$ and corresponding classifier head nodes. This ensures forgetting cannot corrupt retained knowledge and each adapter specializes to its function, as per assumption~2 (Section~\ref{3.2}), if only learning or unlearning is required, the corresponding loss terms are masked accordingly.
+
+\textcolor{red}{
+\noindent\textbf{Classifier-head handling.}
+The classification head is a single linear layer with one output node per class, incrementally extended whenever new classes are introduced. At each step $t$, its nodes are partitioned into retain-, forget-, and new-class subsets; the masking scheme described above (non-target gradients masked to zero) applies identically to the head, so a given loss updates only its corresponding subset of head nodes. At the following step, nodes that were new-class at step $t$ are reclassified as retain-class nodes, while forgotten nodes from step $t$ remain excluded going forward. After merging, we remove the head's forget-class output nodes entirely, consistent with the adapter-deletion rationale of Assumption~4 (Section~\ref{3.2}): since escape unlearning collapses forget-class embeddings to a single point, their corresponding head weights carry no discriminative signal, and retaining them would needlessly expose which classes were removed.
+}
 
 \textcolor{red}{
 \noindent\textbf{Why adapter deletion is necessary.}
@@ -154,7 +162,7 @@ and $\mathcal{S}$ be the LoRA scaling factor
 
 \State \textbf{// Merge adapters}
 \State \textcolor{red}{$W \gets W + \mathcal{S}(B_{\text{\textit{ret}}}A_{\text{\textit{ret}}} + B_{\text{\textit{new}}}A_{\text{\textit{new}}} + B_{\text{\textit{f}}}A_{\text{\textit{f}}})$}
-\State \textcolor{red}{\textbf{Delete} $(B_f, A_f)$, $(B_\text{\textit{ret}}, A_\text{\textit{ret}})$, $(B_\text{\textit{new}}, A_\text{\textit{new}})$, and pre-adaptation checkpoint $\mathcal{M}_\text{orig}$}
+\State \textcolor{red}{\textbf{Delete} $(B_f, A_f)$, $(B_\text{\textit{ret}}, A_\text{\textit{ret}})$, $(B_\text{\textit{new}}, A_\text{\textit{new}})$, pre-adaptation checkpoint $\mathcal{M}_\text{orig}$, and forget-class head nodes}
 
 \State \Return $\mathcal{M}$
 \end{algorithmic}

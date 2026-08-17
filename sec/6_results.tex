@@ -66,10 +66,14 @@ UnCLe         & 100\% & 0.87 & 70.98 & 77.82 & 74.42 & 0.00 & 67.00 & 80.00 & 71
 \end{adjustbox}
 \end{table}
 
+% !!! PLACEHOLDER NUMBERS in tab:face_recognition -- VGGFace2 (200 identities), 12-task
+% sliding-window protocol. Every value below is DUMMY, generated to follow the same
+% trend as the CASIA-Face100 results (Table 1). Replace with real measurements before
+% submission.
 \begin{table}[!htbp]
 \centering
 \renewcommand{\arraystretch}{1.30}
-\caption{Performance comparison across all continual learning-unlearning tasks on Face Recognition on CASIA-Face100. \textcolor{red}{KL divergence and MIA are reported in the ablation study (Section~\ref{7.0}). BID-LoRA results are mean$_{\pm\text{std}}$ over 3 seeds.}}
+\caption{\textcolor{red}{Performance comparison across all 12 continual learning-unlearning tasks on Face Recognition on VGGFace2 (200 identities). KL divergence and MIA are reported in the ablation study (Section~\ref{7.0}). BID-LoRA results are mean$_{\pm\text{std}}$ over 3 seeds. Values shown are placeholder/dummy, pending real experiments.}}
 \label{tab:face_recognition}
 \begin{adjustbox}{max width=\textwidth}
 \setlength{\tabcolsep}{3pt}
@@ -81,16 +85,16 @@ UnCLe         & 100\% & 0.87 & 70.98 & 77.82 & 74.42 & 0.00 & 67.00 & 80.00 & 71
 & & $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow$ & $Acc_o \uparrow$
 & $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow$ & $Acc_o \uparrow$ \\
 \midrule
-Oracle        & 100\% & -- & -- & -- & 95.65 & -- & -- & -- & 96.36 \\
+Oracle        & 100\% & -- & -- & -- & 95.83 & -- & -- & -- & 94.32 \\
 \midrule
-LSF           & 100\% & 0.00 & 90.87 & 93.51 & 91.75 & 0.00 & 87.98 & 90.73 & 88.90 \\
-CLPU-DER++    & 100\% & 0.58 & 88.98 & 90.36 & 89.44 & 0.32 & 88.96 & 93.54 & 90.49 \\
-UniCLUN       & 100\% & 0.87 & 90.28 & 90.96 & 90.51 & 0.89 & 90.70 & 90.35 & 90.58 \\
-UG-CLU        & 100\% & 1.00 & 91.35 & 91.18 & 91.29 & 0.76 & 91.13 & 87.00 & 89.75 \\
-UnCLe         & 100\% & 0.00 & 92.00 & 94.83 & 92.94 & 0.00 & 90.25 & 91.27 & 90.59 \\
+LSF           & 100\% & 0.03 & 88.38 & 90.12 & 88.96 & 0.81 & 90.49 & 90.70 & 90.56 \\
+CLPU-DER++    & 100\% & 0.74 & 90.38 & 93.46 & 91.41 & 0.16 & 91.79 & 90.68 & 91.42 \\
+UniCLUN       & 100\% & 0.09 & 89.11 & 89.15 & 89.12 & 0.09 & 87.48 & 93.24 & 89.40 \\
+UG-CLU        & 100\% & 0.22 & 89.53 & 89.13 & 89.40 & 0.60 & 91.04 & 92.65 & 91.58 \\
+UnCLe         & 100\% & 0.20 & 90.25 & 91.72 & 90.74 & 0.54 & 91.87 & 90.89 & 91.54 \\
 \midrule
 \rowcolor{pink!15}
-\textbf{BID-LoRA} & 5.00\% & $\kern6pt0.10_{\scriptscriptstyle \pm 0.03}\kern-6pt$ & $\kern6pt91.93_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt95.72_{\scriptscriptstyle \pm 0.18}\kern-6pt$ & $\kern6pt93.20_{\scriptscriptstyle \pm 0.20}\kern-6pt$ & $\kern6pt0.88_{\scriptscriptstyle \pm 0.06}\kern-6pt$ & $\kern6pt91.36_{\scriptscriptstyle \pm 0.25}\kern-6pt$ & $\kern6pt93.55_{\scriptscriptstyle \pm 0.17}\kern-6pt$ & $\kern6pt92.09_{\scriptscriptstyle \pm 0.21}\kern-6pt$ \\
+\textbf{BID-LoRA} & 5.00\% & $\kern6pt0.20_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt91.98_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt94.12_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt92.69_{\scriptscriptstyle \pm 0.20}\kern-6pt$ & $\kern6pt0.50_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt92.46_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt93.74_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt92.89_{\scriptscriptstyle \pm 0.20}\kern-6pt$ \\
 \midrule
 \addlinespace[0.2cm]
 \midrule
@@ -100,16 +104,16 @@ UnCLe         & 100\% & 0.00 & 92.00 & 94.83 & 92.94 & 0.00 & 90.25 & 91.27 & 90
 & & $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow$ & $Acc_o \uparrow$
 & $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow$ & $Acc_o \uparrow$ \\
 \midrule
-Oracle        & 100\% & -- & -- & -- & 94.85 & -- & -- & -- & 96.87 \\
+Oracle        & 100\% & -- & -- & -- & 96.37 & -- & -- & -- & 96.05 \\
 \midrule
-LSF           & 100\% & 0.25 & 91.13 & 90.35 & 90.87 & 0.00 & 91.87 & 94.00 & 92.58 \\
-CLPU-DER++    & 100\% & 0.00 & 90.68 & 90.58 & 90.65 & 0.00 & 92.58 & 93.68 & 92.95 \\
-UniCLUN       & 100\% & 0.00 & 91.58 & 91.37 & 91.51 & 0.29 & 92.87 & 94.78 & 93.51 \\
-UG-CLU        & 100\% & 0.00 & 89.69 & 92.35 & 90.58 & 0.78 & 91.25 & 92.65 & 91.72 \\
-UnCLe         & 100\% & 0.00 & 92.22 & 93.00 & 92.48 & 0.10 & 90.36 & 92.82 & 91.18 \\
+LSF           & 100\% & 0.58 & 90.52 & 89.23 & 90.09 & 0.16 & 88.90 & 93.95 & 90.58 \\
+CLPU-DER++    & 100\% & 0.23 & 88.45 & 89.40 & 88.77 & 0.64 & 89.78 & 92.42 & 90.66 \\
+UniCLUN       & 100\% & 0.23 & 87.51 & 90.39 & 88.47 & 0.84 & 90.88 & 90.15 & 90.64 \\
+UG-CLU        & 100\% & 0.64 & 88.82 & 90.85 & 89.50 & 0.03 & 88.58 & 90.34 & 89.17 \\
+UnCLe         & 100\% & 0.21 & 88.33 & 93.68 & 90.11 & 0.21 & 91.71 & 93.38 & 92.27 \\
 \midrule
 \rowcolor{pink!15}
-\textbf{BID-LoRA} & 5.00\% & $\kern6pt0.00_{\scriptscriptstyle \pm 0.00}\kern-6pt$ & $\kern6pt92.25_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt92.35_{\scriptscriptstyle \pm 0.23}\kern-6pt$ & $\kern6pt92.29_{\scriptscriptstyle \pm 0.20}\kern-6pt$ & $\kern6pt0.00_{\scriptscriptstyle \pm 0.00}\kern-6pt$ & $\kern6pt92.51_{\scriptscriptstyle \pm 0.24}\kern-6pt$ & $\kern6pt95.20_{\scriptscriptstyle \pm 0.16}\kern-6pt$ & $\kern6pt93.40_{\scriptscriptstyle \pm 0.22}\kern-6pt$ \\
+\textbf{BID-LoRA} & 5.00\% & $\kern6pt0.58_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt92.02_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt92.84_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt92.29_{\scriptscriptstyle \pm 0.20}\kern-6pt$ & $\kern6pt0.28_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt92.11_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt93.29_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt92.50_{\scriptscriptstyle \pm 0.20}\kern-6pt$ \\
 \midrule
 \addlinespace[0.2cm]
 \midrule
@@ -119,16 +123,74 @@ UnCLe         & 100\% & 0.00 & 92.22 & 93.00 & 92.48 & 0.10 & 90.36 & 92.82 & 91
 & & $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow$ & $Acc_o \uparrow$
 & $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow$ & $Acc_o \uparrow$ \\
 \midrule
-Oracle        & 100\% & -- & -- & -- & 94.58 & -- & -- & -- & 95.85 \\
+Oracle        & 100\% & -- & -- & -- & 96.49 & -- & -- & -- & 95.22 \\
 \midrule
-LSF           & 100\% & 0.00 & 89.69 & 91.87 & 90.42 & 0.00 & 90.87 & 91.27 & 91.00 \\
-CLPU-DER++    & 100\% & 0.00 & 87.25 & 92.35 & 88.95 & 0.00 & 90.81 & 91.28 & 90.97 \\
-UniCLUN       & 100\% & 0.25 & 87.25 & 93.15 & 89.22 & 0.00 & 87.65 & 90.87 & 88.72 \\
-UG-CLU        & 100\% & 0.36 & 89.69 & 93.00 & 90.79 & 0.00 & 88.61 & 90.66 & 89.29 \\
-UnCLe         & 100\% & 0.00 & 90.11 & 92.55 & 90.92 & 0.00 & 89.95 & 91.69 & 90.53 \\
+LSF           & 100\% & 0.46 & 88.32 & 90.23 & 88.96 & 1.00 & 89.65 & 93.86 & 91.05 \\
+CLPU-DER++    & 100\% & 0.56 & 88.31 & 91.92 & 89.51 & 0.86 & 87.06 & 92.60 & 88.91 \\
+UniCLUN       & 100\% & 0.90 & 89.00 & 90.10 & 89.37 & 0.68 & 89.68 & 90.33 & 89.90 \\
+UG-CLU        & 100\% & 1.00 & 89.55 & 89.45 & 89.52 & 0.64 & 87.56 & 91.17 & 88.76 \\
+UnCLe         & 100\% & 0.05 & 87.55 & 92.14 & 89.08 & 0.45 & 91.77 & 93.38 & 92.31 \\
 \midrule
 \rowcolor{pink!15}
-\textbf{BID-LoRA} & 5.00\% & $\kern6pt0.00_{\scriptscriptstyle \pm 0.00}\kern-6pt$ & $\kern6pt92.30_{\scriptscriptstyle \pm 0.21}\kern-6pt$ & $\kern6pt93.25_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt92.62_{\scriptscriptstyle \pm 0.18}\kern-6pt$ & $\kern6pt0.00_{\scriptscriptstyle \pm 0.00}\kern-6pt$ & $\kern6pt90.98_{\scriptscriptstyle \pm 0.23}\kern-6pt$ & $\kern6pt91.70_{\scriptscriptstyle \pm 0.20}\kern-6pt$ & $\kern6pt91.22_{\scriptscriptstyle \pm 0.17}\kern-6pt$ \\
+\textbf{BID-LoRA} & 5.00\% & $\kern6pt0.71_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt91.64_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt92.63_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt91.97_{\scriptscriptstyle \pm 0.20}\kern-6pt$ & $\kern6pt0.24_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt91.80_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt92.86_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt92.15_{\scriptscriptstyle \pm 0.20}\kern-6pt$ \\
+\midrule
+\addlinespace[0.2cm]
+\midrule
+\multirow{2}{*}{\textbf{Method}} & \multirow{2}{*}{\textbf{Tunable} $\downarrow$}
+& \multicolumn{4}{c|}{\textbf{Task-7}} & \multicolumn{4}{c}{\textbf{Task-8}} \\
+\cmidrule(lr){3-6} \cmidrule(lr){7-10}
+& & $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow$ & $Acc_o \uparrow$
+& $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow$ & $Acc_o \uparrow$ \\
+\midrule
+Oracle        & 100\% & -- & -- & -- & 96.49 & -- & -- & -- & 96.57 \\
+\midrule
+LSF           & 100\% & 0.87 & 88.49 & 92.19 & 89.72 & 0.09 & 89.43 & 89.35 & 89.40 \\
+CLPU-DER++    & 100\% & 0.61 & 87.76 & 92.81 & 89.44 & 0.76 & 90.83 & 89.64 & 90.43 \\
+UniCLUN       & 100\% & 0.54 & 90.89 & 91.65 & 91.14 & 0.48 & 89.75 & 90.33 & 89.94 \\
+UG-CLU        & 100\% & 0.00 & 88.62 & 89.10 & 88.78 & 0.87 & 89.12 & 90.06 & 89.43 \\
+UnCLe         & 100\% & 0.93 & 91.39 & 93.16 & 91.98 & 0.54 & 90.65 & 90.01 & 90.44 \\
+\midrule
+\rowcolor{pink!15}
+\textbf{BID-LoRA} & 5.00\% & $\kern6pt0.28_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt90.92_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt94.26_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt92.03_{\scriptscriptstyle \pm 0.20}\kern-6pt$ & $\kern6pt0.28_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt92.79_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt93.80_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt93.13_{\scriptscriptstyle \pm 0.20}\kern-6pt$ \\
+\midrule
+\addlinespace[0.2cm]
+\midrule
+\multirow{2}{*}{\textbf{Method}} & \multirow{2}{*}{\textbf{Tunable} $\downarrow$}
+& \multicolumn{4}{c|}{\textbf{Task-9}} & \multicolumn{4}{c}{\textbf{Task-10}} \\
+\cmidrule(lr){3-6} \cmidrule(lr){7-10}
+& & $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow$ & $Acc_o \uparrow$
+& $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow$ & $Acc_o \uparrow$ \\
+\midrule
+Oracle        & 100\% & -- & -- & -- & 95.35 & -- & -- & -- & 95.67 \\
+\midrule
+LSF           & 100\% & 0.52 & 87.61 & 90.12 & 88.45 & 0.47 & 90.92 & 93.04 & 91.63 \\
+CLPU-DER++    & 100\% & 0.34 & 89.94 & 90.15 & 90.01 & 0.19 & 87.48 & 91.16 & 88.71 \\
+UniCLUN       & 100\% & 0.22 & 87.35 & 92.16 & 88.95 & 0.42 & 89.34 & 92.65 & 90.44 \\
+UG-CLU        & 100\% & 0.23 & 91.53 & 93.30 & 92.12 & 0.67 & 91.92 & 89.49 & 91.11 \\
+UnCLe         & 100\% & 0.07 & 88.19 & 92.34 & 89.57 & 0.40 & 88.70 & 93.31 & 90.24 \\
+\midrule
+\rowcolor{pink!15}
+\textbf{BID-LoRA} & 5.00\% & $\kern6pt0.19_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt91.06_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt94.37_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt92.16_{\scriptscriptstyle \pm 0.20}\kern-6pt$ & $\kern6pt0.22_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt91.18_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt93.40_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt91.92_{\scriptscriptstyle \pm 0.20}\kern-6pt$ \\
+\midrule
+\addlinespace[0.2cm]
+\midrule
+\multirow{2}{*}{\textbf{Method}} & \multirow{2}{*}{\textbf{Tunable} $\downarrow$}
+& \multicolumn{4}{c|}{\textbf{Task-11}} & \multicolumn{4}{c}{\textbf{Task-12}} \\
+\cmidrule(lr){3-6} \cmidrule(lr){7-10}
+& & $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow$ & $Acc_o \uparrow$
+& $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow$ & $Acc_o \uparrow$ \\
+\midrule
+Oracle        & 100\% & -- & -- & -- & 95.31 & -- & -- & -- & 96.66 \\
+\midrule
+LSF           & 100\% & 0.28 & 88.25 & 93.62 & 90.04 & 0.27 & 90.92 & 91.28 & 91.04 \\
+CLPU-DER++    & 100\% & 0.44 & 91.31 & 91.75 & 91.46 & 0.42 & 91.79 & 93.98 & 92.52 \\
+UniCLUN       & 100\% & 0.05 & 92.00 & 93.18 & 92.39 & 0.56 & 90.59 & 89.77 & 90.32 \\
+UG-CLU        & 100\% & 0.97 & 91.63 & 93.24 & 92.17 & 0.30 & 91.84 & 91.90 & 91.86 \\
+UnCLe         & 100\% & 0.17 & 89.43 & 90.07 & 89.64 & 0.54 & 90.74 & 89.29 & 90.26 \\
+\midrule
+\rowcolor{pink!15}
+\textbf{BID-LoRA} & 5.00\% & $\kern6pt0.36_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt90.92_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt93.26_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt91.70_{\scriptscriptstyle \pm 0.20}\kern-6pt$ & $\kern6pt0.53_{\scriptscriptstyle \pm 0.05}\kern-6pt$ & $\kern6pt91.81_{\scriptscriptstyle \pm 0.22}\kern-6pt$ & $\kern6pt94.21_{\scriptscriptstyle \pm 0.19}\kern-6pt$ & $\kern6pt92.61_{\scriptscriptstyle \pm 0.20}\kern-6pt$ \\
+
 \bottomrule
 \end{tabular}
 \end{adjustbox}

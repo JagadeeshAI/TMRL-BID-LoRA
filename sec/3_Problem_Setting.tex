@@ -1,7 +1,7 @@
 \section{Problem Formulation}
 \label{3}
 \subsection{Problem Setting}
-We introduce a novel problem setting called Continual Learning Unlearning (CLU) also known as Continual Adaptation or simply Adaptations, a framework for dynamically modifying model knowledge defined as learned class mappings encoded in parameters. This setting brings together two complementary goals: (i) selectively removing specific targeted knowledge (machine unlearning) and (ii) acquiring new targeted knowledge for existing pre-trained models (continual learning), all while maintaining performance on the remaining knowledge in a continual form. To develop a solution for this problem, we first present the most basic case, in which only one adaptation task is performed, and then expand this formulation to the continuous scenario, which includes a series of adaptation activities.
+\textcolor{red}{We build on the Continual Learning Unlearning (CLU) setting explored in prior work~\cite{shibata2021learning,chatterjee2024unified}}, also known as Continual Adaptation or simply Adaptations, a framework for dynamically modifying model knowledge defined as learned class mappings encoded in parameters. This setting brings together two complementary goals: (i) selectively removing specific targeted knowledge (machine unlearning) and (ii) acquiring new targeted knowledge for existing pre-trained models (continual learning), all while maintaining performance on the remaining knowledge in a continual form. To develop a solution for this problem, we first present the most basic case, in which only one adaptation task is performed, and then expand this formulation to the continuous scenario, which includes a series of adaptation activities.
 
 Let $\mathcal{M}$ be a model pre-trained on the dataset $D$. We regard $\mathcal{M}$ as a mapping function $f_\mathcal{M} : \mathcal{X}_D \rightarrow \mathcal{Y}_D$, where $\mathcal{X}_D$ and $\mathcal{Y}_D$ denote the input and output spaces associated with $D$, respectively. Our objective is to selectively discard certain knowledge while adding new knowledge and retaining the rest. We assume $D_f$ be the dataset to be forgotten, $D^\text{\textit{full}}_r$ the dataset to be retained, and $D_{\text{new}}$ the new dataset to be learned, satisfying $D = D^\text{\textit{full}}_r \cup D_f$, $D^\text{\textit{full}}_r \cap D_f = \emptyset$, and $D_{\text{new}} \cap D = \emptyset$.
 
@@ -49,7 +49,7 @@ After step $t$, the adapted model $\mathcal{M}^{(t)}$ must satisfy:
 \begin{align}
     f_{\mathcal{M}^{(t)}} &: \mathcal{X}_{D_{f}^{(i)}} \cancel{\rightarrow} \mathcal{Y}_{D_{f}^{(i)}}, \quad \forall \, i \leq t \label{Eq:3a} \\
     f_{\mathcal{M}^{(t)}} &: \mathcal{X}_{D_{r}^{(t)}} \rightarrow \mathcal{Y}_{D_{r}^{(t)}} \label{Eq:3b} \\
-    f_{\mathcal{M}^{(t)}} &: \mathcal{X}_{D_{\text{new}}^{(i)}} \rightarrow \mathcal{Y}_{D_{\text{new}}^{(i)}} \label{Eq:3c}
+    f_{\mathcal{M}^{(t)}} &: \textcolor{red}{\mathcal{X}_{D_{\text{new}}^{(t)}} \rightarrow \mathcal{Y}_{D_{\text{new}}^{(t)}}} \label{Eq:3c}
 \end{align}
 \end{subequations}
 
@@ -69,7 +69,7 @@ BID-LoRA assumes the following conditions hold:
     \item A replay buffer $D_r$ with $|D_r| \geq 0.1|D^\text{\textit{full}}_r|$ is available.
     \item Learning and unlearning occur simultaneously; if only one is needed, the corresponding loss is masked (see Section~\ref{4.3}).
     \item Data partitions satisfy $D = D^\text{\textit{full}}_r \cup D_f$, $D^\text{\textit{full}}_r \cap D_f = \emptyset$, $D_{\text{new}} \cap D = \emptyset$.
-    \item \textcolor{red}{All adapter matrices permanently deleted post-merge.}
+    \item \textcolor{red}{All adapter matrices and forgotten-class classifier-head nodes permanently deleted post-merge.}
 \end{enumerate}
 
 

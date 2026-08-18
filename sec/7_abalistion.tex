@@ -46,20 +46,20 @@ BID-LoRA & 5.08 & 0.13 & 77.14 & 85.87 & 80.05 \\
 \subsubsection{Buffer Ratio}
 \label{7.3}
 Buffer data informs the model what to retain or forget. Here, we examine the effect of retain buffer ratio on overall accuracy. Our method is designed to remain robust even with limited buffer availability, as shown in Table.~\ref{tab:buffer_ratio}.
-% !!! PLACEHOLDER NUMBERS in the Peak Mem / Time-per-Step / Total columns below --
+% !!! PLACEHOLDER NUMBERS in the Time-per-Step / Total columns below --
 % these are DUMMY values to be replaced with real measurements. Not measured yet.
 \begin{table}[!htbp]
-\caption{\textcolor{red}{Ablation on retain ratio, with training cost. Peak Mem, Time/Step, and Total (6-Step) are measured wall-clock/memory figures (placeholder values shown, to be replaced with real measurements).}}
+\caption{\textcolor{red}{Ablation on retain ratio, with training cost. Time/Step and Total (6-Step) are measured wall-clock figures (placeholder values shown, to be replaced with real measurements).}}
 \centering
-\begin{tabular}{lccccccc}
+\begin{tabular}{lcccccc}
 \toprule
-Retain Ratio & \textcolor{red}{Peak Mem (GB)} & \textcolor{red}{Time/Step (min)} & \textcolor{red}{Total, 6-Step (min)} & $Acc_f$ & $Acc_r$ & $Acc_n$ \\
+Retain Ratio & \textcolor{red}{Time/Step (min)} & \textcolor{red}{Total, 6-Step (min)} & $Acc_f$ & $Acc_r$ & $Acc_n$ \\
 \midrule
-1.0 & \textcolor{red}{4.5} & \textcolor{red}{14.2} & \textcolor{red}{85.2} & 0.40 & 68.00 & 81.74 \\
-0.5 & \textcolor{red}{4.1} & \textcolor{red}{11.8} & \textcolor{red}{70.8} & 0.00 & 70.00 & 71.05 \\
-0.3 & \textcolor{red}{3.9} & \textcolor{red}{10.5} & \textcolor{red}{63.0} & 0.00 & 66.00 & 79.11 \\
+1.0 & \textcolor{red}{14.2} & \textcolor{red}{85.2} & 0.40 & 68.00 & 81.74 \\
+0.5 & \textcolor{red}{11.8} & \textcolor{red}{70.8} & 0.00 & 70.00 & 71.05 \\
+0.3 & \textcolor{red}{10.5} & \textcolor{red}{63.0} & 0.00 & 66.00 & 79.11 \\
 \rowcolor{orange!20}
-0.1 & \textcolor{red}{3.7} & \textcolor{red}{9.1} & \textcolor{red}{54.6} & 0.00 & 65.00 & 79.96 \\
+0.1 & \textcolor{red}{9.1} & \textcolor{red}{54.6} & 0.00 & 65.00 & 79.96 \\
 \bottomrule
 \end{tabular}
 \label{tab:buffer_ratio}

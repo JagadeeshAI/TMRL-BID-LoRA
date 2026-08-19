@@ -150,7 +150,7 @@ As discussed in Section~\ref{4.3}, placing $d^*$ on the unit sphere leads to uns
 \begin{table}[!htbp]
 \centering
 \footnotesize
-\caption{\textcolor{red}{Unlearning evidence under attack, on the Task-6 CIFAR-100 checkpoint over all 60 classes forgotten during Tasks 1--6.}}
+\caption{\textcolor{red}{Unlearning evidence under attack: eight tests beyond forget accuracy, KL, and MIA, on the Task-6 CIFAR-100 checkpoint over all 60 classes forgotten during Tasks 1--6.}}
 \label{tab:unlearning_evidence}
 \textcolor{red}{
 \begin{tabular}{lccc}
@@ -179,4 +179,4 @@ As discussed in Section~\ref{4.3}, placing $d^*$ on the unit sphere leads to uns
 }
 \end{table}
 
-\textcolor{red}{\emph{Original} is the pre-adaptation model and \emph{Oracle} is retrained from scratch without $D_f$, so the two bracket each attack: information present versus absent by construction. The Oracle column, not $0.5$, is therefore the target for every row, and BID-LoRA matches it on all eleven measurements. The high Sink with a probe below Oracle (chance $1/60=1.67\%$) shows collapse, not relabelling \textcolor{red}{(see the escape-point design rationale in Section~\ref{4.3})}; 5-shot relearning recovers no faster than from scratch, which is what we mean by irreversible. All three MIAs use a 3-layer MLP over per-sample loss and confidence features, 5 attack initialisations, and balanced sets of 200 samples per class, with non-members drawn from held-out images of the same forgotten classes; the adaptive variant instead thresholds $\lVert \text{emb}(x)-t_{\text{escape}} \rVert$. Model inversion additionally covers class-prototype extraction, as the two share a procedure. These are empirical, attack-relative results, not a formal guarantee.}
+\textcolor{red}{This section evaluates unlearning under eight tests beyond forget accuracy, KL, and MIA, bracketing every metric between Original (information present) and Oracle (information absent). BID-LoRA's near-zero forget accuracy, near-chance Sink, and low linear probe together indicate diffuse forgetting, not relabelling. Slow 5-shot relearning shows this is not easily reversed. Three MIA variants near 0.5 and a low inversion match rate show standard and adaptive attacks fail. Low KL divergence versus Oracle shows residual behavior resembling a model that never saw these classes. Original is omitted where meaningless. Results are empirical and attack-relative, not a formal guarantee.}

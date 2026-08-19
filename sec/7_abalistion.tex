@@ -47,17 +47,17 @@ BID-LoRA & 5.08 & 0.13 & 77.14 & 85.87 & 80.05 \\
 \label{7.3}
 Buffer data informs the model what to retain or forget. Here, we examine the effect of retain buffer ratio on overall accuracy. Our method is designed to remain robust even with limited buffer availability, as shown in Table.~\ref{tab:buffer_ratio}.
 \begin{table}[!htbp]
-\caption{\textcolor{red}{Ablation on retain ratio, with training cost. Time/Step and Total (6-Step) are measured wall-clock figures.}}
+\caption{Ablation on retain ratio, with training cost. Time/Step and Total (6-Step) are measured wall-clock figures.}
 \centering
 \begin{tabular}{lcccccc}
 \toprule
-Retain Ratio & \textcolor{red}{Time/Step (min)} & \textcolor{red}{Total, 6-Step (min)} & $Acc_f$ & $Acc_r$ & $Acc_n$ \\
+Retain Ratio & Time/Step (min) & Total, 6-Step (min) & $Acc_f$ & $Acc_r$ & $Acc_n$ \\
 \midrule
-1.0 & \textcolor{red}{22.3} & \textcolor{red}{133.8} & 0.40 & 68.00 & 81.74 \\
-0.5 & \textcolor{red}{17.1} & \textcolor{red}{102.6} & 0.00 & 70.00 & 71.05 \\
-0.3 & \textcolor{red}{14.3} & \textcolor{red}{85.8} & 0.00 & 66.00 & 79.11 \\
+1.0 & 22.3 & 133.8 & 0.40 & 68.00 & 81.74 \\
+0.5 & 17.1 & 102.6 & 0.00 & 70.00 & 71.05 \\
+0.3 & 14.3 & 85.8 & 0.00 & 66.00 & 79.11 \\
 \rowcolor{orange!20}
-0.1 & \textcolor{red}{11.7} & \textcolor{red}{70.2} & 0.00 & 65.00 & 79.96 \\
+0.1 & 11.7 & 70.2 & 0.00 & 65.00 & 79.96 \\
 \bottomrule
 \end{tabular}
 \label{tab:buffer_ratio}
@@ -91,7 +91,7 @@ This experiment verifies that each adapter pathway holds knowledge specific to i
 
 \subsubsection{Geometric Verification of Unlearning}
 \label{7.5}
-A critical question is whether forget-class embeddings actually move toward the computed escape direction $d^*$. Fig ~\ref{fig:geometric_verification}(a,b) shows t-SNE visualizations before and after unlearning. Initially, the three forget classes (0, 1, 2) are spatially separated from $d^*$. After unlearning, all three forget clusters collapse toward the escape point, demonstrating successful alignment with the intended escape direction. \textcolor{red}{We note that t-SNE and PCA are non-linear and linear dimensionality-reduction projections, respectively, and can distort inter-cluster distances, so the visualizations here are offered as qualitative, not quantitative, evidence of the escape behavior.}
+A critical question is whether forget-class embeddings actually move toward the computed escape direction $d^*$. Fig ~\ref{fig:geometric_verification}(a,b) shows t-SNE visualizations before and after unlearning. Initially, the three forget classes (0, 1, 2) are spatially separated from $d^*$. After unlearning, all three forget clusters collapse toward the escape point, demonstrating successful alignment with the intended escape direction. We note that t-SNE and PCA are non-linear and linear dimensionality-reduction projections, respectively, and can distort inter-cluster distances, so the visualizations here are offered as qualitative, not quantitative, evidence of the escape behavior.
 The 3D sphere visualizations (Fig ~\ref{fig:geometric_verification} (c,d)) provide additional evidence by showing class centroids projected onto a unit sphere via PCA. While retain-class centroids (R3--R9, squares) remain anchored at their original positions relative to the retain centroid $\bar{c}_r$, the forget centroids (F0, F1, F2, circles) migrate along the antipodal axis toward $d^*$. Notably, F1 moves from a position distant from $d^*$ to near-perfect alignment after unlearning, while F0 and F2 also show substantial movement toward the escape direction. This confirms that the optimization successfully drives forget-class representations away from retain classes along the computed global escape vector.
 
 
@@ -134,15 +134,15 @@ The 3D sphere visualizations (Fig ~\ref{fig:geometric_verification} (c,d)) provi
 As discussed in Section~\ref{4.3}, placing $d^*$ on the unit sphere leads to unstable forgetting due to nearby centroids. Table~\ref{tab:escape_ablation} validates this: $\lambda_{\text{esc}}=10$ achieves optimal forgetting (0.53\%) by pushing the escape point beyond the embedding sphere.
 
 
-\subsubsection{\textcolor{red}{Unlearning Evidence Under Attack}}
+\subsubsection{Unlearning Evidence Under Attack}
 \label{7.7}
 
 \begin{table}[!htbp]
 \centering
 \footnotesize
-\caption{\textcolor{red}{Unlearning evidence under attack: nine tests spanning forgetting, information recoverability, privacy attacks, and Oracle consistency, on the Task-6 CIFAR-100 checkpoint over all 60 classes forgotten during Tasks 1--6. N/A = not applicable.}}
+\caption{Unlearning evidence under attack: nine tests spanning forgetting, information recoverability, privacy attacks, and Oracle consistency, on the Task-6 CIFAR-100 checkpoint over all 60 classes forgotten during Tasks 1--6. N/A = not applicable.}
 \label{tab:unlearning_evidence}
-\textcolor{red}{
+
 \begin{tabular}{lccc}
 \toprule
 \textbf{Evaluation} & \textbf{Original} & \textbf{BID-LoRA} & \textbf{Oracle} \\
@@ -166,7 +166,7 @@ As discussed in Section~\ref{4.3}, placing $d^*$ on the unit sphere leads to uns
 \quad KL divergence vs.\ Oracle $\downarrow$ & N/A & \textbf{0.79} & 0.00 \\
 \bottomrule
 \end{tabular}
-}
+
 \end{table}
 
-\textcolor{red}{This section evaluates unlearning under nine tests, bracketing every metric between Original (information present) and Oracle (information absent). BID-LoRA's near-zero forget accuracy, near-chance Sink, and low linear probe together indicate diffuse forgetting, not relabelling. Slow 5-shot relearning shows this is not easily reversed. Three MIA variants near 0.5 and a low inversion match rate show standard and adaptive attacks fail. Low KL divergence versus Oracle shows residual behavior resembling a model that never saw these classes. Original is omitted where meaningless. Results are empirical and attack-relative, not a formal guarantee.}
+This section evaluates unlearning under nine tests, bracketing every metric between Original (information present) and Oracle (information absent). BID-LoRA's near-zero forget accuracy, near-chance Sink, and low linear probe together indicate diffuse forgetting, not relabelling. Slow 5-shot relearning shows this is not easily reversed. Three MIA variants near 0.5 and a low inversion match rate show standard and adaptive attacks fail. Low KL divergence versus Oracle shows residual behavior resembling a model that never saw these classes. Original is omitted where meaningless. Results are empirical and attack-relative, not a formal guarantee.

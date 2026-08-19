@@ -5,7 +5,7 @@
 
 Let $\mathcal{M}$ be a model pre-trained on the dataset $D$. We regard $\mathcal{M}$ as a mapping function $f_\mathcal{M} : \mathcal{X}_D \rightarrow \mathcal{Y}_D$, where $\mathcal{X}_D$ and $\mathcal{Y}_D$ denote the input and output spaces associated with $D$, respectively. Our objective is to selectively discard certain knowledge while adding new knowledge and retaining the rest. We assume $D_f$ be the dataset to be forgotten, $D^\text{\textit{full}}_r$ the dataset to be retained, and $D_{\text{new}}$ the new dataset to be learned, satisfying $D = D^\text{\textit{full}}_r \cup D_f$, $D^\text{\textit{full}}_r \cap D_f = \emptyset$, and $D_{\text{new}} \cap D = \emptyset$.
 
-In practice, storing the full retain set is prohibited under General Data Protection Regulation (GDPR) and California Consumer Privacy Act (CCPA) regulations for privacy-sensitive data, while for non-private data, retraining remains computationally expensive due to large-scale models and datasets. We therefore maintain a small replay buffer $D_r \subset D^\text{\textit{full}}_r$ such that $|D_r| \ll |D^\text{\textit{full}}_r|$ (at least 10\% of $|D^\text{\textit{full}}_r|$), here $D^\text{\textit{full}}_r$ represents full retaining data \footnote{From this point, $D_r$ denotes the experience replay buffer unless specified.}. The consequences of insufficient or absent buffer size are discussed in detail in Section~\ref{8.1}.
+In practice, storing the full retain set is prohibited under General Data Protection Regulation (GDPR) and California Consumer Privacy Act (CCPA) regulations for privacy-sensitive data, while for non-private data, retraining remains computationally expensive due to large-scale models and datasets. We therefore maintain a small replay buffer $D_r \subset D^\text{\textit{full}}_r$, comprising at least 10\% of $|D^\text{\textit{full}}_r|$, such that $|D_r| \ll |D^\text{\textit{full}}_r|$, where $D^\text{\textit{full}}_r$ represents full retaining data \footnote{From this point, $D_r$ denotes the experience replay buffer unless specified.}. The consequences of insufficient or absent buffer size are discussed in detail in Section~\ref{8.1}.
 
 
 Before adaptation, $\mathcal{M}$ performs well on $D_r$ and $D_f$ but poorly on $D_{\text{new}}$, i.e.,
@@ -30,7 +30,7 @@ f_{\mathcal{M'}} :
 \label{eq:2}
 \end{equation}
 }
-Here, \( \cancel{\rightarrow} \) denotes that the mapping no longer holds (i.e., the model has forgotten the corresponding mapping), while \( \rightarrow \) indicates that the mapping still holds. 
+Here, \( \cancel{\rightarrow} \) denotes that the mapping no longer holds, meaning the model has forgotten the corresponding mapping, while \( \rightarrow \) indicates that the mapping still holds.
 
 We now extend this problem to the continual setting, where the model is required to sequentially adopt new knowledge, involving both unlearning and learning across tasks $T$. These tasks may be triggered by requests from the user, the owner, or both. Here, $t$ is an index representing the task number, ranging from $0, 1, 2, \ldots, t, \ldots, T$. let $D_r^\text{(t)}$ be the data to be retained, $D_{f}^\text{(t)}$ be the data to be forgotten and $D_\text{new}^\text{(t)}$ be the data to be learned at $t_\text{th}$ step respectively.
 
@@ -67,7 +67,7 @@ where $C$ is the number of classes and Oracle denotes a model trained directly o
 BID-LoRA assumes the following conditions hold:
 \begin{enumerate}
     \item A replay buffer $D_r$ with $|D_r| \geq 0.1|D^\text{\textit{full}}_r|$ is available.
-    \item Learning and unlearning occur simultaneously; if only one is needed, the corresponding loss is masked (see Section~\ref{4.3}).
+    \item Learning and unlearning occur simultaneously, and if only one is needed, the corresponding loss is masked, as described in Section~\ref{4.3}.
     \item Data partitions satisfy $D = D^\text{\textit{full}}_r \cup D_f$, $D^\text{\textit{full}}_r \cap D_f = \emptyset$, $D_{\text{new}} \cap D = \emptyset$.
     \item \textcolor{red}{All adapter matrices and forgotten-class classifier-head nodes permanently deleted post-merge.}
 \end{enumerate}

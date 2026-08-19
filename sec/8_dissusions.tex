@@ -4,7 +4,7 @@ In this section, we provide an in-depth discussion of several critical aspects o
 \vspace{0.0cm}
 \subsection{On the Necessity of Retain Buffer in Machine Unlearning}
 \label{8.1}
-Effective unlearning requires distinguishing what to forget from what to retain. This section investigates whether forget data ($D_f$) or retain buffer ($D_r$, a subset of full retain data $D^\text{full}_r$) can be avoided in classification and face recognition tasks.
+Effective unlearning requires distinguishing what to forget from what to retain. This section investigates whether forget data $D_f$ or the retain buffer $D_r$, a subset of full retain data $D^\text{full}_r$, can be avoided in classification and face recognition tasks.
 
 We find $D_r$ unavoidable for preserving task-critical knowledge: pretraining adjusts all parameters using both $D_f$ and $D^\text{full}_r$, making disentanglement infeasible without $D_r$ access.
 
@@ -20,14 +20,14 @@ $\lambda_{\text{esc}}$ & $Acc_f \downarrow$ & $Acc_r \uparrow$ & $Acc_n \uparrow
 2 & 4.13 & 80.71 & 63.60 & 75.01 \\
 5 & 4.27 & 77.14 & 68.27 & 74.18 \\
 \rowcolor{orange!15}
-10 & 0.53 & 77.14 & 68.00 & 73.45 \\
+10 & 0.53 & 77.14 & 68.00 & 74.09 \\
 \bottomrule
 \end{tabular}
 \label{tab:escape_ablation}
 \end{table}
 
 
-Only noise-based impair-and-repair~\cite{tarun2023fast} and source-free unlearning~\cite{ahmed2025towards} attempt to bypass this; the former still requires $D_r$, and the latter estimates retain-data Hessians from $D_f$ alone but is limited to convex losses and linear heads, making it inapplicable to transformers.
+Only noise-based impair-and-repair~\cite{tarun2023fast} and source-free unlearning~\cite{ahmed2025towards} attempt to bypass this. The former still requires $D_r$, and the latter estimates retain-data Hessians from $D_f$ alone but is limited to convex losses and linear heads, making it inapplicable to transformers.
 
 All established methods for non-convex models rely on $D_r$: weight-importance methods~\cite{kirkpatrick2017overcoming,fan2023salun} derive Fisher or saliency scores from it, SCRUB~\cite{kurmanji2023towards} and GS-LoRA~\cite{zhao2024continual} use it to safeguard retained knowledge, and every CLU method~\cite{shibata2021learning,adhikari2025unlearning,liu2022continual,chatterjee2024unified,huang2025unified} incorporates it for stability.
 
@@ -35,12 +35,12 @@ Generative tasks present exceptions: FLAT~\cite{wang2024llm} solves unlearning w
 
 While $D_f$ can be avoided through noise-based proxies or source-free methods, no viable approach eliminates $D_r$ dependence for non-convex models without compromising retention.
 
-\textcolor{red}{Necessity, however, does not settle legitimacy. $D_r$ is not an incidental copy of the training data: it is drawn only from subjects who explicitly consent to retention, and consent, not volume, is what distinguishes it from storing $D^\text{full}_r$. Consent is revocable; withdrawn samples are purged and replenished from the remaining consenting pool, which we assume is large enough to sustain the 10\% quota that Table~\ref{tab:buffer_ratio} shows is sufficient.}
+\textcolor{red}{Necessity, however, does not settle legitimacy. $D_r$ is not an incidental copy of the training data: it is drawn only from subjects who explicitly consent to retention, and consent, not volume, is what distinguishes it from storing $D^\text{full}_r$. Consent is revocable, and withdrawn samples are purged and replenished from the remaining consenting pool, which we assume is large enough to sustain the 10\% quota that Table~\ref{tab:buffer_ratio} shows is sufficient.}
 
 \subsection{Knowledge Leakage Analysis}
 \label{8.2}
 
-Can we solve CLU by combining existing CL and MU methods? We pair four combinations (ER-ACE\cite{caccia2021new} + GS\cite{zhao2024continual} ), (DER++ \cite{buzzega2020dark} + FU \cite{tarun2023fast}), (EWC \cite{kirkpatrick2017overcoming} + SalUn\cite{fan2023salun}), and (ER-AML \cite{caccia2021new} + GS\cite{zhao2024continual}) on data-efficient image transformers~\cite{touvron2021training} and FaceTransformer~\cite{zhong2021face} (face recognition). As shown in Fig~\ref{fig:pilot_study}, all exhibit progressive knowledge leakage across CLU cycles, confirming that piecewise solutions fail and a unified framework is necessary.
+Can we solve CLU by combining existing CL and MU methods? We pair four combinations (ER-ACE\cite{caccia2021new} + GS\cite{zhao2024continual} ), (DER++ \cite{buzzega2020dark} + FU \cite{tarun2023fast}), (EWC \cite{kirkpatrick2017overcoming} + SalUn\cite{fan2023salun}), and (ER-AML \cite{caccia2021new} + GS\cite{zhao2024continual}) on data-efficient image transformers~\cite{touvron2021training} and on FaceTransformer~\cite{zhong2021face} for face recognition. As shown in Fig~\ref{fig:pilot_study}, all exhibit progressive knowledge leakage across CLU cycles, confirming that piecewise solutions fail and a unified framework is necessary.
 
 \begin{figure}[!htbp]
     \centering

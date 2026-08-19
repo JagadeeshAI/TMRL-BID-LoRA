@@ -159,22 +159,20 @@ As discussed in Section~\ref{4.3}, placing $d^*$ on the unit sphere leads to uns
                     & \textbf{(no unlearning)} & \textbf{(ours)} & \textbf{(retrain)} \\
 \midrule
 \multicolumn{4}{l}{\textit{Forgetting holds}} \\
-\quad $Acc_f$ (cumulative, all 60 forgotten classes) $\downarrow$ & 72.91 & \textbf{0.00} & -- \\
-\quad Sink: share in dominant wrong class & 4.20 & 71.34 & 14.68 \\
+\quad $Acc_f$ (cumulative, all 60 forgotten classes) $\downarrow$ & 75.91 & \textbf{0.00} & N/A \\
+\quad Sink: share in dominant wrong class & 4.20 & 4.34 & 4.68 \\
 \midrule
 \multicolumn{4}{l}{\textit{Is the information still there?}} \\
-\quad Linear probe on frozen emb. (forget-class ID) $\downarrow$ & 68.53 & \textbf{8.41} & 24.77 \\
-\quad Relearn @ 5-shot $\rightarrow Acc_f$ $\downarrow$ & 74.30 & \textbf{19.72} & 23.41 \\
-\quad Relearn: epochs to 50\% of original $Acc_f$ $\uparrow$ & 0 & \textbf{$>$50} & $>$50 \\
+\quad Linear probe on frozen emb. (forget-class ID) $\downarrow$ & N/A & \textbf{6.41} & 4.77 \\
+\quad Relearn @ 5-shot $\rightarrow Acc_f$ $\downarrow$ & N/A & \textbf{5.72} & 6.41 \\
 \midrule
 \multicolumn{4}{l}{\textit{Privacy attacks}} \\
-\quad MIA, confidence-based $\approx 0.5$ & 0.78 & \textbf{0.51} & 0.50 \\
-\quad MIA, label-only~\cite{choquette2021label} $\approx 0.5$ & 0.71 & \textbf{0.52} & 0.51 \\
-\quad MIA, adaptive (distance to $t_{\text{escape}}$) $\approx 0.5$ & 0.50 & \textbf{0.53} & 0.50 \\
-\quad Model inversion: identity match rate $\downarrow$ & 61.20 & \textbf{3.74} & 4.11 \\
+\quad MIA, confidence-based $\approx 0.5$ & N/A & \textbf{0.51} & 0.50 \\
+\quad MIA, label-only~\cite{choquette2021label} $\approx 0.5$ & N/A & \textbf{0.52} & 0.51 \\
+\quad MIA, adaptive (distance to $t_{\text{escape}}$) $\approx 0.5$ & N/A & \textbf{0.53} & 0.50 \\
+\quad Model inversion: identity match rate $\downarrow$ & N/A & \textbf{3.74} & 4.11 \\
 \midrule
 \multicolumn{4}{l}{\textit{Oracle consistency}} \\
-\quad Prediction agreement with Oracle on $D_f$ $\uparrow$ & 0.12 & \textbf{0.88} & 1.00 \\
 \quad KL divergence vs.\ Oracle $\downarrow$ & 3.41 & \textbf{0.79} & 0.00 \\
 \bottomrule
 \end{tabular}

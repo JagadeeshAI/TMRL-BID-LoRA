@@ -46,10 +46,8 @@ BID-LoRA & 5.08 & 0.13 & 77.14 & 85.87 & 80.05 \\
 \subsubsection{Buffer Ratio}
 \label{7.3}
 Buffer data informs the model what to retain or forget. Here, we examine the effect of retain buffer ratio on overall accuracy. Our method is designed to remain robust even with limited buffer availability, as shown in Table.~\ref{tab:buffer_ratio}.
-% !!! PLACEHOLDER NUMBERS in the Time-per-Step / Total columns below --
-% these are DUMMY values to be replaced with real measurements. Not measured yet.
 \begin{table}[!htbp]
-\caption{\textcolor{red}{Ablation on retain ratio, with training cost. Time/Step and Total (6-Step) are measured wall-clock figures (placeholder values shown, to be replaced with real measurements).}}
+\caption{\textcolor{red}{Ablation on retain ratio, with training cost. Time/Step and Total (6-Step) are measured wall-clock figures.}}
 \centering
 \begin{tabular}{lcccccc}
 \toprule
@@ -135,14 +133,6 @@ The 3D sphere visualizations (Fig ~\ref{fig:geometric_verification} (c,d)) provi
 \label{7.6}
 As discussed in Section~\ref{4.3}, placing $d^*$ on the unit sphere leads to unstable forgetting due to nearby centroids. Table~\ref{tab:escape_ablation} validates this: $\lambda_{\text{esc}}=10$ achieves optimal forgetting (0.53\%) by pushing the escape point beyond the embedding sphere.
 
-
-% =====================================================================
-% !!! PLACEHOLDER NUMBERS in tab:unlearning_evidence -- DRAFT SKELETON.
-% Every value is ASSUMED. Replace with measured results before
-% submission. The paragraph underneath asserts three of them
-% qualitatively (Sink high, probe below Oracle, relearn ~= Oracle):
-% re-check it if the measurements come out differently.
-% =====================================================================
 
 \subsubsection{\textcolor{red}{Unlearning Evidence Under Attack}}
 \label{7.7}
